@@ -1,0 +1,82 @@
+{
+    "name": "wouldyourather",
+
+    "emojiSets": [
+        ["🤔", "✨"],
+        ["🤔", "💭"],
+        ["🤔", "🌀"]
+    ],
+
+    "scenarios": {
+
+        "common": [
+            "Would you rather always have to whisper or always have to shout?",
+            "Would you rather give up sweets or give up salty snacks?",
+            "Would you rather always be 10 minutes late or 20 minutes early?",
+            "Would you rather only text in emojis or only text in full sentences?",
+            "Would you rather have a messy room or a messy inbox?",
+            "Would you rather lose your phone charger or your headphones?",
+            "Would you rather always take the stairs or always take the long way?",
+            "Would you rather have cold coffee or warm soda?",
+            "Would you rather always sit in traffic or always wait in line?",
+            "Would you rather only eat breakfast food or only eat dinner food?",
+            "Would you rather have an itchy sweater or tight shoes for a day?",
+            "Would you rather always lose the TV remote or always lose one sock?"
+        ],
+
+        "uncommon": [
+            "Would you rather have to sing every request out loud or dance every time you enter a room?",
+            "Would you rather have unlimited pizza but no more tacos, or unlimited tacos but no more pizza?",
+            "Would you rather be able to talk to animals but they're all sarcastic, or talk to plants but they're all overly polite?",
+            "Would you rather have to high-five everyone you meet or bow to everyone you meet?",
+            "Would you rather have a pet dragon the size of a cat or a pet cat the size of a dragon?",
+            "Would you rather always know when someone's lying or always be able to tell the future about small, unimportant things?",
+            "Would you rather have the ability to pause time but age normally while paused, or never age but never pause time?",
+            "Would you rather have to narrate your own life out loud or hear a laugh track after everything you say?",
+            "Would you rather be famous for something embarrassing or completely unknown forever?",
+            "Would you rather have permanently sticky hands or permanently slippery hands?"
+        ],
+
+        "rare": [
+            "Would you rather be able to breathe underwater or fly, but only 3 feet off the ground?",
+            "Would you rather have the power to freeze time for 10 seconds a day, or rewind 10 seconds once a day?",
+            "Would you rather live one day as a legendary hero or a lifetime as an unremarkable villager?",
+            "Would you rather have every meal taste amazing but be nutritionally empty, or every meal be nutritious but taste like cardboard?",
+            "Would you rather know the exact date of your death or never know how you'll die at all?",
+            "Would you rather be able to teleport anywhere but arrive completely soaked, or fly slowly but arrive perfectly dry?",
+            "Would you rather have unlimited money but never be able to spend it on yourself, or modest money you can spend freely?",
+            "Would you rather be the strongest person in the world but the slowest, or the fastest but the weakest?",
+            "Would you rather live in a world with no music or a world with no color?"
+        ],
+
+        "epic": [
+            "Would you rather be the last person on Earth or one of a billion clones of yourself?",
+            "Would you rather control fire but be terrified of it, or control water but be unable to swim?",
+            "Would you rather relive the same year of your life on a loop, remembering each time, or forget everything and start fresh every year?",
+            "Would you rather have the power to bring people back to life but lose a year of your own life each time, or never gain that power at all?",
+            "Would you rather be worshipped as a god by a small forgotten village, or be an ordinary citizen in a thriving kingdom?",
+            "Would you rather be able to hear everyone's thoughts but not control it, or have everyone hear yours?",
+            "Would you rather permanently trade places with your closest friend, or never see them again?",
+            "Would you rather have infinite wisdom but no one believes you, or be seen as wise despite having none?"
+        ],
+
+        "legendary": [
+            "Would you rather be the reason a kingdom rises to glory, or the reason it falls, and never know which until the end?",
+            "Would you rather have the power to reshape reality once, knowing it may unmake everything you love, or never have that power at all?",
+            "Would you rather be remembered for a thousand years as a myth, or forgotten in a decade but truly happy?",
+            "Would you rather carry the weight of infinite knowledge alone, or share ignorance with everyone you love?",
+            "Would you rather be able to save one person from any fate, once, or protect everyone from small misfortunes forever?",
+            "Would you rather rule a kingdom you never wanted, or wander free with nothing to your name?"
+        ],
+
+        "divine": [
+            "Would you rather hold the fate of the universe in your hands for one second, or never know it was ever in your hands at all?",
+            "Would you rather exist outside of time, watching everything and changing nothing, or live one mortal life fully and completely?",
+            "Would you rather be the last thought in every mind before the universe ends, or never have existed at all?",
+            "Would you rather know the true nature of reality and never be able to tell anyone, or live in blissful, permanent illusion?",
+            "Would you rather be the answer to every question that will ever be asked, or the question no one will ever think to ask?"
+        ]
+
+    }
+
+}

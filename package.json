@@ -1,0 +1,23 @@
+{
+  "name": "whisperbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "better-sqlite3": "^12.11.1",
+    "discord.js": "^14.27.0",
+    "dotenv": "^17.4.2",
+    "node-cron": "^4.6.0",
+    "sqlite3": "^6.0.1"
+  },
+  "allowScripts": {
+    "better-sqlite3@12.11.1": true
+  }
+}

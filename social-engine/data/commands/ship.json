@@ -1,0 +1,69 @@
+{
+    "name": "ship",
+
+    "emojiSets": [
+        ["💕", "✨"],
+        ["💘", "🌸"],
+        ["💗", "🎀"]
+    ],
+
+    "npcInteractions": [
+        { "npc": "lucy", "line": "I've seen worse matches walk out of my tavern together." },
+        { "npc": "old_tom", "line": "Reminds me of my own wedding day. Take that as you will." },
+        { "npc": "tree_of_life", "line": "My roots have witnessed stranger pairings than this." },
+        { "npc": "kingdom_messenger", "line": "The King has been notified and is, cautiously, invested." },
+        { "npc": "whisper_merchant", "line": "I don't sell love potions. Probably wouldn't help here anyway." },
+        { "npc": "nami", "line": "The winds have... thoughts about this pairing." }
+    ],
+
+    "responses": {
+
+        "common": [
+            "{target1} and {target2}: **23% compatible**. It's a start, I guess.",
+            "{target1} and {target2}: **31% compatible**. Friendship, maybe.",
+            "{target1} and {target2}: **18% compatible**. Rough waters ahead.",
+            "{target1} and {target2}: **40% compatible**. Nothing to write home about.",
+            "{target1} and {target2}: **12% compatible**. Oof.",
+            "{target1} and {target2}: **35% compatible**. It's... something."
+        ],
+
+        "uncommon": [
+            "{target1} and {target2}: **56% compatible**. There's potential here!",
+            "{target1} and {target2}: **63% compatible**. Not bad at all!",
+            "{target1} and {target2}: **58% compatible**. Colleagues are noticing chemistry.",
+            "{target1} and {target2}: **67% compatible**. Okay, this could work.",
+            "{target1} and {target2}: **60% compatible**. A pleasant surprise!"
+        ],
+
+        "rare": [
+            "{target1} and {target2}: **78% compatible**. Genuinely promising!",
+            "{target1} and {target2}: **82% compatible**. The tavern is buzzing about this one.",
+            "{target1} and {target2}: **75% compatible**. This is rare chemistry.",
+            "{target1} and {target2}: **80% compatible**. Certified good match.",
+            "{target1} and {target2}: **85% compatible**. Everyone's shipping it now."
+        ],
+
+        "epic": [
+            "{target1} and {target2}: **91% compatible**. Server-wide shipping wars incoming.",
+            "{target1} and {target2}: **88% compatible**. This is elite-tier chemistry.",
+            "{target1} and {target2}: **93% compatible**. Nearly unmatched compatibility.",
+            "{target1} and {target2}: **90% compatible**. The Kingdom Messenger wants a statement.",
+            "{target1} and {target2}: **95% compatible**. Legendary chemistry, honestly."
+        ],
+
+        "legendary": [
+            "{target1} and {target2}: **98% compatible**. History will remember this pairing.",
+            "{target1} and {target2}: **97% compatible**. The tavern has gone silent in respect.",
+            "{target1} and {target2}: **99% compatible**. Nearly perfect. Nearly.",
+            "{target1} and {target2}: **96% compatible**. Whispered about for generations."
+        ],
+
+        "divine": [
+            "{target1} and {target2}: **100% compatible**. Written in the stars, quite literally.",
+            "{target1} and {target2}: **100% compatible**. The universe confirms this ship.",
+            "{target1} and {target2}: **100% compatible**. Reality itself has no notes."
+        ]
+
+    }
+
+}

@@ -1,0 +1,9 @@
+{
+    "consumable": { "label": "Consumables", "emoji": "🧪" },
+    "upgrade": { "label": "Upgrades", "emoji": "⬆️" },
+    "tool": { "label": "Tools", "emoji": "🛠️" },
+    "furniture": { "label": "Furniture", "emoji": "🏠" },
+    "pet_care": { "label": "Pet Care", "emoji": "🐾" },
+    "collectible": { "label": "Collectibles", "emoji": "📚" },
+    "mystery": { "label": "Mystery Goods", "emoji": "🎁" }
+}

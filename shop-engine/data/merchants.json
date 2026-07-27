@@ -1,0 +1,79 @@
+{
+    "alchemist": {
+        "key": "alchemist",
+        "name": "The Alchemist",
+        "title": "Potion Master",
+        "emoji": "🧪",
+        "color": "#9B59B6",
+        "description": "Potion master and alchemical expert",
+        "greeting": "Welcome to my workshop. I brew only the finest elixirs.",
+        "icon_url": null,
+        "items": ["health_potion", "mana_potion", "luck_elixir", "fire_resistance"]
+    },
+    "quartermaster": {
+        "key": "quartermaster",
+        "name": "The Quartermaster",
+        "title": "Keeper of Supplies",
+        "emoji": "🎒",
+        "color": "#3498DB",
+        "description": "Supplies for every adventure",
+        "greeting": "Gear up, traveler. The Whisper Realm is dangerous.",
+        "icon_url": null,
+        "items": ["backpack_upgrade", "rope", "lantern", "compass"]
+    },
+    "carpenter": {
+        "key": "carpenter",
+        "name": "The Carpenter",
+        "title": "Master Builder",
+        "emoji": "🏠",
+        "color": "#E67E22",
+        "description": "Master builder of fine furniture",
+        "greeting": "Looking to decorate your home? I've got just the pieces.",
+        "icon_url": null,
+        "items": ["wooden_chair", "oak_table", "bookshelf", "fireplace"]
+    },
+    "beast_keeper": {
+        "key": "beast_keeper",
+        "name": "The Beast Keeper",
+        "title": "Caretaker of Creatures",
+        "emoji": "🐾",
+        "color": "#27AE60",
+        "description": "Caring for creatures of all kinds",
+        "greeting": "Your pets need the best. I have it.",
+        "icon_url": null,
+        "items": ["pet_food", "toy_bone", "pet_bed", "training_treats"]
+    },
+    "dockmaster": {
+        "key": "dockmaster",
+        "name": "The Dockmaster",
+        "title": "Master of the Waters",
+        "emoji": "🎣",
+        "color": "#1ABC9C",
+        "description": "Master of the waters",
+        "greeting": "The fish are biting today. Need some gear?",
+        "icon_url": null,
+        "items": ["fishing_rod", "bait_box", "lucky_hook", "fishing_net"]
+    },
+    "curator": {
+        "key": "curator",
+        "name": "The Curator",
+        "title": "Preserver of Rarities",
+        "emoji": "📚",
+        "color": "#8E44AD",
+        "description": "Preserver of rare collectibles",
+        "greeting": "I collect the rarest treasures in the realm.",
+        "icon_url": null,
+        "items": ["ancient_book", "crystal_shard", "golden_feather", "mystery_orb"]
+    },
+    "traveling_merchant": {
+        "key": "traveling_merchant",
+        "name": "The Traveling Merchant",
+        "title": "Wanderer of Distant Lands",
+        "emoji": "✨",
+        "color": "#F1C40F",
+        "description": "Rotating wares from distant lands",
+        "greeting": "I travel far and wide for the finest goods.",
+        "icon_url": null,
+        "items": ["mystery_box", "rare_seed", "star_fragment", "dragon_scale"]
+    }
+}

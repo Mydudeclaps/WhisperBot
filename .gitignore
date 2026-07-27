@@ -1,0 +1,19 @@
+.env
+
+node_modules/
+
+# Runtime database
+whisperbot.db
+*.db
+
+# Logs
+logs/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/

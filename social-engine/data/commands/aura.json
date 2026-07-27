@@ -1,0 +1,66 @@
+{
+    "name": "aura",
+
+    "emojiSets": [
+        ["🌌", "✨"],
+        ["💫", "🔮"],
+        ["🌠", "☄️"]
+    ],
+
+    "npcInteractions": [
+        { "npc": "tree_of_life", "line": "I can feel it from here. Interesting energy." },
+        { "npc": "nami", "line": "The winds carry a very specific kind of energy from this one." },
+        { "npc": "kingdom_messenger", "line": "The King has requested a full report on this aura reading." }
+    ],
+
+    "responses": {
+
+        "common": [
+            "{target}'s aura: **+120**. Modest, but positive.",
+            "{target}'s aura: **-50**. A rough patch, but recoverable.",
+            "{target}'s aura: **+200**. Steady and unremarkable.",
+            "{target}'s aura: **+75**. Faint, but present.",
+            "{target}'s aura: **-120**. Ouch. Try again tomorrow.",
+            "{target}'s aura: **+150**. Perfectly average energy."
+        ],
+
+        "uncommon": [
+            "{target}'s aura: **+500**. Noticeably strong today!",
+            "{target}'s aura: **+650**. People can feel it from across the room.",
+            "{target}'s aura: **+400**. A solid, confident glow.",
+            "{target}'s aura: **+800**. Building momentum!",
+            "{target}'s aura: **+550**. Genuinely good vibes."
+        ],
+
+        "rare": [
+            "{target}'s aura: **+2,500**. This is rare, radiant energy.",
+            "{target}'s aura: **+3,200**. NPCs are drawn to it.",
+            "{target}'s aura: **+2,800**. The room feels different now.",
+            "{target}'s aura: **+3,000**. Certified main-character energy.",
+            "{target}'s aura: **+2,600**. Practically glowing."
+        ],
+
+        "epic": [
+            "{target}'s aura: **+15,000**. Server-wide energy shift detected.",
+            "{target}'s aura: **+12,000**. This is elite-tier presence.",
+            "{target}'s aura: **+18,000**. The Tree of Life is taking notice.",
+            "{target}'s aura: **+16,500**. Nearly overwhelming, in a good way.",
+            "{target}'s aura: **+20,000**. Legendary presence, honestly."
+        ],
+
+        "legendary": [
+            "{target}'s aura: **+100,000**. The kingdom will remember this reading.",
+            "{target}'s aura: **+95,000**. The tavern went quiet in reverence.",
+            "{target}'s aura: **+120,000**. Nearly immeasurable.",
+            "{target}'s aura: **+110,000**. Whispered about for generations."
+        ],
+
+        "divine": [
+            "{target}'s aura: **+∞**. The scale broke trying to measure this.",
+            "{target}'s aura: **UNMEASURABLE**. Reality itself took notice.",
+            "{target}'s aura: **+∞**. The universe has no notes."
+        ]
+
+    }
+
+}

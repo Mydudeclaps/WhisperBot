@@ -1,0 +1,68 @@
+{
+    "lucy": {
+        "name": "Lucy",
+        "emoji": "👩",
+        "interruptions": [
+            "Take that outside.",
+            "I'll allow it... this time.",
+            "Not in my tavern!",
+            "Break it up, break it up.",
+            "That's the third one today."
+        ]
+    },
+    "old_tom": {
+        "name": "Old Tom",
+        "emoji": "👴",
+        "interruptions": [
+            "I've seen worse.",
+            "That brings back memories.",
+            "My back hurts just watching.",
+            "Reminds me of the old days.",
+            "Back in my day we settled it with a handshake."
+        ]
+    },
+    "tree_of_life": {
+        "name": "Tree of Life",
+        "emoji": "🌳",
+        "interruptions": [
+            "Violence solves nothing... except apparently today.",
+            "The leaves whisper approval.",
+            "I have seen many seasons... but this is new.",
+            "My roots shudder in solidarity.",
+            "Even I did not see this coming."
+        ]
+    },
+    "kingdom_messenger": {
+        "name": "Kingdom Messenger",
+        "emoji": "📜",
+        "interruptions": [
+            "The King has been notified.",
+            "A royal decree has been issued.",
+            "His Majesty is amused.",
+            "This has been added to the record.",
+            "The court jester is taking notes."
+        ]
+    },
+    "whisper_merchant": {
+        "name": "Whisper Merchant",
+        "emoji": "🧙",
+        "interruptions": [
+            "I'll sell you another shoe.",
+            "Interesting choice of weapon.",
+            "I have a potion for that.",
+            "Business is good today.",
+            "I saw that coming — I sell foresight, you know."
+        ]
+    },
+    "nami": {
+        "name": "Nami",
+        "emoji": "🧝",
+        "interruptions": [
+            "The winds spoke of this.",
+            "What a curious interaction.",
+            "I sense great chaos.",
+            "The stars aligned for this moment.",
+            "Even the river paused to watch."
+        ]
+    }
+}

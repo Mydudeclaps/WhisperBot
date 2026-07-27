@@ -1,0 +1,261 @@
+{
+    "first_hug": {
+        "name": "First Hug",
+        "description": "Hug someone for the first time.",
+        "title": "Warm Heart",
+        "type": "command_count",
+        "command": "hug",
+        "threshold": 1
+    },
+    "first_slap": {
+        "name": "First Slap",
+        "description": "Slap someone for the first time.",
+        "title": "Menace",
+        "type": "command_count",
+        "command": "slap",
+        "threshold": 1
+    },
+    "first_kiss": {
+        "name": "First Kiss",
+        "description": "Kiss someone for the first time.",
+        "title": "Romantic",
+        "type": "command_count",
+        "command": "kiss",
+        "threshold": 1
+    },
+    "first_boop": {
+        "name": "First Boop",
+        "description": "Boop someone's nose for the first time.",
+        "title": "Nose Detective",
+        "type": "command_count",
+        "command": "boop",
+        "threshold": 1
+    },
+    "first_handshake": {
+        "name": "First Handshake",
+        "description": "Shake hands with someone for the first time.",
+        "title": "Business Partner",
+        "type": "command_count",
+        "command": "handshake",
+        "threshold": 1
+    },
+    "first_punch": {
+        "name": "First Punch",
+        "description": "Punch someone for the first time.",
+        "title": "Contender",
+        "type": "command_count",
+        "command": "punch",
+        "threshold": 1
+    },
+    "first_cheer": {
+        "name": "First Cheer",
+        "description": "Cheer for someone for the first time.",
+        "title": "Hype Squad",
+        "type": "command_count",
+        "command": "cheer",
+        "threshold": 1
+    },
+    "first_applaud": {
+        "name": "First Applause",
+        "description": "Applaud someone for the first time.",
+        "title": "Patron of the Arts",
+        "type": "command_count",
+        "command": "applaud",
+        "threshold": 1
+    },
+    "first_bestie": {
+        "name": "First Bestie",
+        "description": "Declare someone your bestie for the first time.",
+        "title": "Ride or Die",
+        "type": "command_count",
+        "command": "bestie",
+        "threshold": 1
+    },
+    "first_fight": {
+        "name": "First Fight",
+        "description": "Start a mock fight for the first time.",
+        "title": "Brawler",
+        "type": "command_count",
+        "command": "fight",
+        "threshold": 1
+    },
+    "first_throwpotato": {
+        "name": "First Potato",
+        "description": "Throw a potato for the first time.",
+        "title": "Potato Enthusiast",
+        "type": "command_count",
+        "command": "throwpotato",
+        "threshold": 1
+    },
+    "first_throwsnowball": {
+        "name": "First Snowball",
+        "description": "Throw a snowball for the first time.",
+        "title": "Frost Starter",
+        "type": "command_count",
+        "command": "throwsnowball",
+        "threshold": 1
+    },
+    "first_pie": {
+        "name": "First Pie",
+        "description": "Pie someone in the face for the first time.",
+        "title": "Certified Clown",
+        "type": "command_count",
+        "command": "pie",
+        "threshold": 1
+    },
+    "first_yeet": {
+        "name": "First Yeet",
+        "description": "Yeet someone for the first time.",
+        "title": "Chaos Gremlin",
+        "type": "command_count",
+        "command": "yeet",
+        "threshold": 1
+    },
+    "first_fishslap": {
+        "name": "First Fish Slap",
+        "description": "Slap someone with a fish for the first time.",
+        "title": "Fishmonger",
+        "type": "command_count",
+        "command": "fishslap",
+        "threshold": 1
+    },
+    "first_poke": {
+        "name": "First Poke",
+        "description": "Poke someone for the first time.",
+        "title": "Finger of Chaos",
+        "type": "command_count",
+        "command": "poke",
+        "threshold": 1
+    },
+    "first_bonk": {
+        "name": "First Bonk",
+        "description": "Bonk someone for the first time.",
+        "title": "Bonk Enforcer",
+        "type": "command_count",
+        "command": "bonk",
+        "threshold": 1
+    },
+    "first_highfive": {
+        "name": "First High Five",
+        "description": "High-five someone for the first time.",
+        "title": "Team Player",
+        "type": "command_count",
+        "command": "highfive",
+        "threshold": 1
+    },
+    "first_compliment": {
+        "name": "First Compliment",
+        "description": "Compliment someone for the first time.",
+        "title": "Kind Soul",
+        "type": "command_count",
+        "command": "compliment",
+        "threshold": 1
+    },
+    "first_8ball": {
+        "name": "First Question",
+        "description": "Ask the magic 8-ball a question for the first time.",
+        "title": "Oracle Apprentice",
+        "type": "command_count",
+        "command": "8ball",
+        "threshold": 1
+    },
+    "first_ship": {
+        "name": "First Ship",
+        "description": "Ship two people together for the first time.",
+        "title": "Matchmaker",
+        "type": "command_count",
+        "command": "ship",
+        "threshold": 1
+    },
+    "first_rizz": {
+        "name": "First Rizz Check",
+        "description": "Check someone's rizz level for the first time.",
+        "title": "Rizz Analyst",
+        "type": "command_count",
+        "command": "rizz",
+        "threshold": 1
+    },
+    "first_aura": {
+        "name": "First Aura Reading",
+        "description": "Check someone's aura for the first time.",
+        "title": "Aura Reader",
+        "type": "command_count",
+        "command": "aura",
+        "threshold": 1
+    },
+    "first_coinflip": {
+        "name": "First Flip",
+        "description": "Flip a coin for the first time.",
+        "title": "Lucky Flipper",
+        "type": "command_count",
+        "command": "coinflip",
+        "threshold": 1
+    },
+    "first_wouldyourather": {
+        "name": "First Dilemma",
+        "description": "Get a would-you-rather scenario for the first time.",
+        "title": "Deep Thinker",
+        "type": "command_count",
+        "command": "wouldyourather",
+        "threshold": 1
+    },
+    "hug_enthusiast": {
+        "name": "Hug Enthusiast",
+        "description": "Hug someone 50 times.",
+        "title": "Hug Enthusiast",
+        "type": "command_count",
+        "command": "hug",
+        "threshold": 50
+    },
+    "hug_champion": {
+        "name": "Hug Champion",
+        "description": "Hug someone 500 times.",
+        "title": "Master Hugger",
+        "type": "command_count",
+        "command": "hug",
+        "threshold": 500
+    },
+    "combo_novice": {
+        "name": "Combo Novice",
+        "description": "Trigger 10 combos.",
+        "title": "Combo Initiate",
+        "type": "combos_triggered",
+        "threshold": 10
+    },
+    "combo_master": {
+        "name": "Combo Master",
+        "description": "Trigger 100 combos.",
+        "title": "Combo King/Queen",
+        "type": "combos_triggered",
+        "threshold": 100
+    },
+    "divine_chosen": {
+        "name": "Divine Chosen",
+        "description": "Witness 5 Divine-rarity outcomes.",
+        "title": "Blessed One",
+        "type": "rarity_count",
+        "rarity": "divine",
+        "threshold": 5
+    },
+    "npc_whisperer": {
+        "name": "NPC Whisperer",
+        "description": "Trigger 10 NPC interruptions.",
+        "title": "Tree Whisperer",
+        "type": "npc_interactions",
+        "threshold": 10
+    },
+    "social_starter": {
+        "name": "Social Starter",
+        "description": "Use 10 social commands.",
+        "title": "Friend",
+        "type": "total_interactions",
+        "threshold": 10
+    },
+    "dedicated": {
+        "name": "Dedicated",
+        "description": "Use 1000 social commands.",
+        "title": "Loyal Subject",
+        "type": "total_interactions",
+        "threshold": 1000
+    }
+}

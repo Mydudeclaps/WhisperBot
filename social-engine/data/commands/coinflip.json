@@ -1,0 +1,82 @@
+{
+    "name": "coinflip",
+
+    "emojiSets": [
+        ["🪙", "✨"],
+        ["🪙", "💫"],
+        ["🪙", "⭐"]
+    ],
+
+    "flavor": {
+
+        "common": [
+            "The coin lands with a simple *clink*: **{result}**.",
+            "It's **{result}**. Nothing fancy about it.",
+            "The coin settles flat: **{result}**.",
+            "A quick flip, a quick answer: **{result}**.",
+            "The coin spins twice and lands on **{result}**.",
+            "Simple as that: **{result}**.",
+            "The coin wobbles a bit before settling on **{result}**.",
+            "It comes up **{result}**, plain and clear.",
+            "A modest little flip results in **{result}**.",
+            "The coin taps the table once: **{result}**.",
+            "Straightforward flip, straightforward result: **{result}**.",
+            "The coin does its job: **{result}**."
+        ],
+
+        "uncommon": [
+            "The coin spins with unusual energy and lands on **{result}**!",
+            "It bounces once before settling — **{result}**!",
+            "The coin catches the light mid-air: **{result}**!",
+            "A confident flip lands cleanly on **{result}**!",
+            "The coin spins longer than expected... **{result}**!",
+            "It rolls a little before stopping on **{result}**!",
+            "The flip has some flair to it: **{result}**!",
+            "The coin lands with a satisfying *plink*: **{result}**!",
+            "A little suspense, then: **{result}**!",
+            "The coin does a small spin-out before landing on **{result}**!"
+        ],
+
+        "rare": [
+            "The coin spins in slow motion before dramatically landing on **{result}**!",
+            "It flips higher than physics should allow, then lands on **{result}**!",
+            "The coin seems to hover for a second before choosing **{result}**!",
+            "A gust of wind nudges the coin — it still lands on **{result}**!",
+            "The coin spins so fast it briefly looks like a sphere: **{result}**!",
+            "Everyone nearby leans in as the coin lands on **{result}**!",
+            "The coin bounces off the table once, dramatically, landing on **{result}**!",
+            "The flip feels oddly momentous: **{result}**!",
+            "The coin catches a beam of sunlight mid-spin: **{result}**!"
+        ],
+
+        "epic": [
+            "The coin spins with an almost audible hum before landing on **{result}**!",
+            "Time seems to slow as the coin decides: **{result}**!",
+            "The coin flips so perfectly it looks choreographed: **{result}**!",
+            "A small crowd (nobody, but still) gasps as it lands on **{result}**!",
+            "The coin glows faintly mid-air before settling on **{result}**!",
+            "This flip feels like it belongs in a movie: **{result}**!",
+            "The coin lands with a resounding, echoing *clink*: **{result}**!",
+            "Even the Tree of Life seemed to lean in for this one: **{result}**!"
+        ],
+
+        "legendary": [
+            "The coin spins for a full, suspicious ten seconds before landing on **{result}**!",
+            "The server briefly holds its breath as the coin lands on **{result}**!",
+            "The coin seems to glow gold mid-flip, landing on **{result}**!",
+            "This flip will be talked about later: **{result}**!",
+            "The Kingdom Messenger takes note as the coin lands on **{result}**!",
+            "The coin lands so perfectly it barely makes a sound: **{result}**!"
+        ],
+
+        "divine": [
+            "Reality itself confirms the result: **{result}**.",
+            "The universe holds its breath, then reveals: **{result}**.",
+            "Time briefly paused for this flip. The result: **{result}**.",
+            "Every NPC in the kingdom somehow already knew: **{result}**.",
+            "History will remember this flip. The result: **{result}**."
+        ]
+
+    }
+
+}

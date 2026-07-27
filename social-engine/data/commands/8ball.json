@@ -1,0 +1,89 @@
+{
+    "name": "8ball",
+
+    "emojiSets": [
+        ["🎱", "🔮", "✨"],
+        ["🎱", "❓", "💫"]
+    ],
+
+    "npcChanceOverride": 0.3,
+
+    "npcInteractions": [
+        { "npc": "whisper_merchant", "line": "The 8-ball and I go way back. Trust it." },
+        { "npc": "nami", "line": "The winds whispered the answer before the ball even spoke." },
+        { "npc": "tree_of_life", "line": "Even I don't know the future. Respect the mystery." }
+    ],
+
+    "responses": {
+
+        "common": [
+            "Yes.",
+            "No.",
+            "Maybe.",
+            "Probably not.",
+            "Ask again later.",
+            "It's not looking good.",
+            "Signs point to yes.",
+            "Unclear, try again.",
+            "Most likely.",
+            "Don't count on it.",
+            "Very doubtful.",
+            "Outlook is okay, I guess."
+        ],
+
+        "uncommon": [
+            "Without a doubt.",
+            "My sources say no.",
+            "Better not tell you now.",
+            "Cannot predict now, but it's leaning positive.",
+            "Concentrate and ask again.",
+            "You may rely on it.",
+            "As I see it, yes.",
+            "Outlook not so good.",
+            "Very likely, actually.",
+            "Reply hazy, try again."
+        ],
+
+        "rare": [
+            "The stars say yes!",
+            "Ask again later, but the vibes are strong.",
+            "The 8-ball is unusually confident: yes.",
+            "Something tells me this is a big deal. Yes.",
+            "The answer is clearer than usual: absolutely.",
+            "The mist parts — the answer is yes.",
+            "This one felt different. The answer is yes.",
+            "The 8-ball glows faintly. Trust it: yes.",
+            "A rare moment of clarity: without question, yes."
+        ],
+
+        "epic": [
+            "The universe whispers: definitely!",
+            "The 8-ball trembles with certainty: YES.",
+            "Every fiber of magic in this ball says yes.",
+            "The answer arrives glowing and unmistakable: yes.",
+            "This is bigger than a simple answer — but yes.",
+            "The 8-ball has never been this sure. YES.",
+            "Something ancient stirs within the ball. The answer is yes.",
+            "This answer feels destined: absolutely, yes."
+        ],
+
+        "legendary": [
+            "Reality bends around this answer: Yes.",
+            "The 8-ball briefly glows gold. The answer is a resounding YES.",
+            "Even the tavern went quiet for this one. Yes.",
+            "The Kingdom Messenger will want to hear this: YES.",
+            "This answer will be remembered. Absolutely, unmistakably: yes.",
+            "The 8-ball nearly cracked from the certainty of this: YES."
+        ],
+
+        "divine": [
+            "The very fabric of existence says: ABSOLUTELY.",
+            "Reality briefly stopped loading to deliver this answer: YES.",
+            "Time itself paused to confirm: without any doubt, yes.",
+            "The cosmos itself whispers the answer, and it is YES.",
+            "History will remember this question. The answer: YES."
+        ]
+
+    }
+
+}

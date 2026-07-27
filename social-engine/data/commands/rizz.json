@@ -1,0 +1,66 @@
+{
+    "name": "rizz",
+
+    "emojiSets": [
+        ["😎", "✨"],
+        ["🗣️", "💫"],
+        ["😏", "🔥"]
+    ],
+
+    "npcInteractions": [
+        { "npc": "lucy", "line": "I've seen better. I've also seen much worse." },
+        { "npc": "whisper_merchant", "line": "I could sell you some rizz, but honestly, I don't think it'd help." },
+        { "npc": "nami", "line": "The winds have... opinions about this reading." }
+    ],
+
+    "responses": {
+
+        "common": [
+            "{target}'s rizz level: **34/100**. Room for growth.",
+            "{target}'s rizz level: **41/100**. Perfectly average, honestly.",
+            "{target}'s rizz level: **28/100**. It's a work in progress.",
+            "{target}'s rizz level: **47/100**. Mid, but trying.",
+            "{target}'s rizz level: **19/100**. Yikes, but respectfully.",
+            "{target}'s rizz level: **50/100**. Right down the middle."
+        ],
+
+        "uncommon": [
+            "{target}'s rizz level: **63/100**. Okay, decent showing!",
+            "{target}'s rizz level: **58/100**. Getting somewhere!",
+            "{target}'s rizz level: **67/100**. Colleagues are noticing.",
+            "{target}'s rizz level: **71/100**. Solid, confident energy.",
+            "{target}'s rizz level: **60/100**. A pleasant surprise."
+        ],
+
+        "rare": [
+            "{target}'s rizz level: **78/100**. Genuinely impressive.",
+            "{target}'s rizz level: **82/100**. NPCs are taking notice.",
+            "{target}'s rizz level: **75/100**. This is rare air.",
+            "{target}'s rizz level: **80/100**. Certified charisma.",
+            "{target}'s rizz level: **85/100**. The whole tavern felt it."
+        ],
+
+        "epic": [
+            "{target}'s rizz level: **91/100**. Server-wide recognition incoming.",
+            "{target}'s rizz level: **88/100**. This is elite-tier charisma.",
+            "{target}'s rizz level: **93/100**. Nearly unmatched.",
+            "{target}'s rizz level: **90/100**. The Kingdom Messenger wants a statement.",
+            "{target}'s rizz level: **95/100**. Legendary charisma, honestly."
+        ],
+
+        "legendary": [
+            "{target}'s rizz level: **98/100**. History will remember this reading.",
+            "{target}'s rizz level: **97/100**. The tavern has gone silent in respect.",
+            "{target}'s rizz level: **99/100**. Nearly perfect. Nearly.",
+            "{target}'s rizz level: **96/100**. Whispered about for generations."
+        ],
+
+        "divine": [
+            "{target}'s rizz level: **100/100**. Reality itself approves.",
+            "{target}'s rizz level: **∞/100**. The scale broke trying to measure this.",
+            "{target}'s rizz level: **100/100**. The universe has no notes."
+        ]
+
+    }
+
+}
