@@ -8,12 +8,9 @@ const SocialEmbedBuilder = require("./SocialEmbedBuilder");
 const SocialStats = require("../models/SocialStats");
 const SocialHistory = require("../models/SocialHistory");
 const { loadCommandData } = require("../utils/commandLoader");
+const { sleep } = require("../utils/helpers");
 
 const STAGE_DELAY_MS = 2500;
-
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
 
 
 // The actual "hug/slap/poke/etc." interaction, once a user and target are

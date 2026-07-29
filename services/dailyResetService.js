@@ -1,10 +1,6 @@
 const db = require("../database/database");
 
 const {
-    assignDailyMissions
-} = require("./dailyMissionService");
-
-const {
     resolveDailyRaces
 } = require("./raceService");
 

@@ -19,7 +19,7 @@ const {
     resetGame
 } = require("../../services/numerologyService");
 
-const { getGameStats, getGlobalLeaderboard, getContributorTotals } = require("../../services/numerologyStats");
+const { getGameStats, getGlobalLeaderboard } = require("../../services/numerologyStats");
 
 const {
     dashboardEmbed,

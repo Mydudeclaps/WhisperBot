@@ -25,7 +25,7 @@ const {
 } = require("../../utils/casinoSessionUI");
 
 const { spin, colorOf, resolveBet } = require("../../services/rouletteService");
-const { addCoins, getCoins, hasEnoughCoins } = require("../../services/coinService");
+const { addCoins, getCoins } = require("../../services/coinService");
 const { recordBet } = require("../../services/casinoStatsService");
 const { getUser } = require("../../services/userService");
 const { npcLineForGame } = require("../../services/casinoNpcService");

@@ -33,11 +33,8 @@
 **Why it matters:** Currently safe — every context command's display name is capitalized ("Hug") while its slash equivalent is lowercase ("hug"), and JS Map keys are case-sensitive, so there's no actual collision today (verified across all 101 commands). But nothing enforces this; a future context command sharing exact case with an existing command of a different type would silently overwrite one of them in the Map.
 **Suggested fix:** Key the Map by `${type}:${name}` instead of just `name`, or maintain separate Maps per command type.
 
-### `package.json` lists an unused dependency
-**Description:** `sqlite3` is listed alongside `better-sqlite3`. Nothing in the codebase requires it.
-**Location:** `package.json`
-**Why it matters:** Minor — extra install weight, mild confusion for anyone reading dependencies to understand the stack.
-**Suggested fix:** `npm uninstall sqlite3`.
+### `package.json` listed an unused dependency
+**Status:** ✅ Resolved (2026-07-29 maintenance sprint) — `sqlite3` was removed from `package.json`. Nothing in the codebase ever required it; `better-sqlite3` is the only SQLite driver in use.
 
 ### `highlow_stats` table is redundant with `casino_stats`
 **Description:** High/Low still writes to its own legacy `highlow_stats` table for backwards compatibility, but `casino_stats.highlow_games`/`highlow_wins` is the actual source of truth everywhere else (leaderboards, passport, etc.).
@@ -46,10 +43,7 @@
 **Suggested fix:** Confirm nothing reads it, then stop writing to it (don't drop the table — self-healing migrations never remove data).
 
 ### `models/` folder is empty
-**Description:** Left over from a Mongoose-based lore system that was fully migrated to SQLite. The folder itself was never removed.
-**Location:** `models/`
-**Why it matters:** Cosmetic only.
-**Suggested fix:** Safe to delete once confirmed nothing references it (nothing does, per this audit).
+**Status:** ✅ Resolved (2026-07-29 maintenance sprint) — the folder no longer exists in the project; nothing referenced it.
 
 ### `vipService.js` is dead code
 **Description:** Fully functional wagered-threshold VIP rank system, completely unused since the casino XP/rank system replaced it as what `/casino vip` actually displays.

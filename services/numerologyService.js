@@ -11,7 +11,6 @@
 // the sync-only design matters here.
 const db = require("../database/database");
 const { computeNext, advanceState } = require("./numerologyRules");
-const { MODES } = require("../config/numerologyConfig");
 
 
 function parseState(row) {

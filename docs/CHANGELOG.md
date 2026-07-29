@@ -2,12 +2,28 @@
 
 Reconstructed from this project's actual development history — real rounds of work, real bugs found and fixed, in order. Dates approximate where not explicitly recorded.
 
+## Maintenance & Cleanup Sprint — 2026-07-29
+### Fixed
+- Removed a stale, out-of-date duplicate `database.js` at the project root (missing the casino expansion, `tic_challenges`, and numerology tables present in the real `database/database.js`). Nothing required it; it was dead weight that risked confusing a future edit.
+- Removed 20 confirmed-unused imports across `services/`, `utils/`, `social-engine/`, and several `commands/casino/*` and `commands/activities/*` files (verified individually — not a blind regex pass).
+- Removed unused `sqlite3` dependency from `package.json`. See [KNOWN_ISSUES.md](KNOWN_ISSUES.md).
+### Changed
+- Consolidated three duplicate `sleep()`/`capitalize()` helper implementations in the social-engine module into the existing shared `social-engine/utils/helpers.js`.
+- Archived `docs/README_FIX.md` → `docs/updates/LORE_MONGODB_TO_SQLITE_MIGRATION.md` with a historical-status header, since the patch it describes is already fully merged.
+- Corrected several docs that referred to `database.js` where they meant `database/database.js` (AI_CONTEXT.md, ARCHITECTURE.md, DATABASE.md).
+### Removed
+- Orphaned root-level `testStats.js` manual test script (unreferenced anywhere).
+### Notes
+- Full details in [docs/updates/2026-07-29-maintenance-cleanup.md](updates/2026-07-29-maintenance-cleanup.md).
+- No gameplay, economy, database schema, or command-facing behavior changed. All 102 commands and 225 modules verified to load with zero errors before and after this sprint.
+
 ## Lore System — SQLite Migration
 ### Fixed
 - `/lore` was throwing `MongooseError: buffering timed out` — the bot never connected to MongoDB anywhere; every other feature already ran on the local SQLite database. Migrated the entire lore feature onto `better-sqlite3` (new `lore` table, `services/loreService.js` rewritten).
 - `archive_number` was globally unique instead of per-guild, which would break the moment a second guild used the feature. Fixed to a compound unique index on `(guild_id, archive_number)`.
 - Broadcast channel picker didn't check bot permissions before posting, causing silent failures. Now checks `ViewChannel`+`SendMessages` first.
 - `/lore approve` went from a stubbed-out TODO to a real Accept/Reject button flow.
+
 
 ## Casino System — Initial Build (Phases 1-3)
 ### Added

@@ -1,4 +1,4 @@
-const { pickRandom, pickRandomMany, fillTemplate, rollChance } = require("../utils/helpers");
+const { pickRandom, fillTemplate, rollChance } = require("../utils/helpers");
 const NPCManager = require("./NPCManager");
 
 // Combo flavor lines are keyed by the highest threshold met — checked

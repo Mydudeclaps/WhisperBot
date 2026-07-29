@@ -40,11 +40,27 @@ function rollChance(percent) {
 }
 
 
+// Pauses for `ms` milliseconds. Used between story stages (StoryBuilder)
+// and simple response/target command flows to pace out the cinematic
+// reveal instead of dumping every stage at once.
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
+// Capitalizes the first letter of a word (e.g. rarity/title display text).
+function capitalize(word) {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+}
+
+
 module.exports = {
 
     pickRandom,
     pickRandomMany,
     fillTemplate,
-    rollChance
+    rollChance,
+    sleep,
+    capitalize
 
 };

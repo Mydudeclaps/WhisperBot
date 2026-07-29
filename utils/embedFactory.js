@@ -10,7 +10,6 @@ const { getKingdomList } = require("../services/kingdomService");
 const { progressBar, riskLabel } = require("./robberyUtils");
 
 const ShopManager = require("../shop-engine/engine/ShopManager");
-const { getItemImageAttachment } = require("../shop-engine/utils/shopHelpers");
 
 const kingdoms = getKingdomList();
 

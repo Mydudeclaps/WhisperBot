@@ -110,7 +110,7 @@ Single SQLite file (`whisperbot.db`), one connection module (`database/database.
 | memory_games, memory_wins | INTEGER, default 0 | *(migrated — same bug/fix as tic_games)* |
 | casino_xp | INTEGER, default 0 | *(migrated)* Visitor→Casino Legend rank progression |
 
-⚠️ **`recordBet(userId, game, ...)` in `casinoStatsService.js` builds `${game}_games`/`${game}_wins` column names dynamically.** Any future casino game **must** have its two columns added to the migration list in `database.js`, or the very first session settlement for that game throws `SqliteError: no such column`. This has happened twice already.
+⚠️ **`recordBet(userId, game, ...)` in `casinoStatsService.js` builds `${game}_games`/`${game}_wins` column names dynamically.** Any future casino game **must** have its two columns added to the migration list in `database/database.js`, or the very first session settlement for that game throws `SqliteError: no such column`. This has happened twice already.
 
 ### `casino_horses`
 **Purpose:** Horse ownership for `/horse buy` — owning a horse gives it a win/payout bonus when it races.

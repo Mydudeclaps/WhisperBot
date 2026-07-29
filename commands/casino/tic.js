@@ -16,7 +16,6 @@ const {
 } = require("../../utils/embedFactory");
 
 const {
-    betSelectRow,
     startButtonRow,
     cooldownRow
 } = require("../../utils/casinoSessionUI");

@@ -6,18 +6,10 @@ const AchievementTracker = require("./AchievementTracker");
 const SocialStats = require("../models/SocialStats");
 const SocialHistory = require("../models/SocialHistory");
 const { loadCommandData } = require("../utils/commandLoader");
-const { pickRandom } = require("../utils/helpers");
+const { pickRandom, sleep, capitalize } = require("../utils/helpers");
 const { getCommandThumbnail } = require("../../utils/embedFactory");
 
 const STAGE_DELAY_MS = 2000;
-
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-function capitalize(word) {
-    return word.charAt(0).toUpperCase() + word.slice(1);
-}
 
 
 // The actual "check rizz/aura" flow, once a target is already known —

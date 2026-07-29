@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, MessageFlags } = require("discord.js");
+const { SlashCommandBuilder } = require("discord.js");
 
 const { executeActivity } = require("../../services/activityService");
 const { activityResultEmbed, activityCooldownEmbed } = require("../../utils/embedFactory");

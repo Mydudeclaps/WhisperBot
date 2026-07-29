@@ -17,7 +17,7 @@ const { FAILURE_MESSAGES } = require("../data/numerologyMessages");
 const embeds = require("../utils/numerologyEmbeds");
 const loreService = require("../services/loreService");
 const adminConfig = require("../config/adminConfig");
-const { PUBLIC_FAILURE_CHANCE, LORE_ENTRY_EVERY, REACTION_RARITY, REACTION_COUNT_WEIGHTS } = require("../config/numerologyConfig");
+const { PUBLIC_FAILURE_CHANCE, REACTION_RARITY, REACTION_COUNT_WEIGHTS } = require("../config/numerologyConfig");
 
 function pickWeighted(weightedList, key, valueKey) {
 
