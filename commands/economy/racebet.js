@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, MessageFlags } = require("discord.js");
 
-const { raceChallengeEmbed, raceStatusEmbed } = require("../../utils/embedFactory");
+const { raceChallengeEmbed } = require("../../utils/embedFactory");
 const { hasEnoughCoins, getCoins } = require("../../services/coinService");
 const { getUser } = require("../../services/userService");
 const { RACEBET } = require("../../config/gameConfig");

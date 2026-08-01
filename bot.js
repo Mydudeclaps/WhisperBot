@@ -2,11 +2,19 @@ require("dotenv").config();
 
 require("./database/database");
 
+// Fails startup loudly with every problem listed if any activity's
+// config is broken — catches the class of bug that crashed /hunt (and
+// several related ones: empty outcome arrays, malformed reward ranges,
+// mismatched chance totals) before the bot is ever reachable, instead
+// of letting a live command discover it at 2am.
+const { validateActivities } = require("./services/activityService");
+validateActivities();
+
 const {
     startScheduler
 } = require("./services/schedulerService");
 
-const { Client, GatewayIntentBits, Collection } = require("discord.js");
+const { Client, GatewayIntentBits, Collection, Partials } = require("discord.js");
 
 const { loadCommands } = require("./handlers/commandHandler");
 
@@ -32,8 +40,19 @@ const client = new Client({
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.MessageContent,
         GatewayIntentBits.GuildVoiceStates,
-        GatewayIntentBits.GuildMessageReactions
-    
+        GatewayIntentBits.GuildMessageReactions,
+        // Required for /rob's victim-response DM flow: without this intent
+        // (and the Channel partial below), DM channels the bot didn't
+        // originate stay "partial"/uncached, and button interactions sent
+        // back from inside them can fail to resolve through
+        // Message#awaitMessageComponent() — the DM sends fine, but the
+        // victim's click on Defend/Run/etc. never reaches the collector.
+        // See docs/updates/ for the robbery-system audit that traced this.
+        GatewayIntentBits.DirectMessages
+
+    ],
+    partials: [
+        Partials.Channel
     ]
 });
 

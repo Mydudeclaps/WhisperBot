@@ -1,7 +1,8 @@
 const cron = require('node-cron');
-const { ChannelType, PermissionsBitField, EmbedBuilder } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const loreService = require('../services/loreService');
 const { formatDate, categoryLabel } = require('../utils/loreUtils');
+const { announceLoreEntry } = require('../utils/notificationRouter');
 
 // Chance that a given scheduled broadcast is flagged "legendary" (rare, gilded variant)
 const LEGENDARY_CHANCE = 0.02;
@@ -42,38 +43,8 @@ class LoreBroadcast {
         }
         await loreService.broadcastEntry(entry.id);
 
-        const guild = this.client.guilds.cache.get(guildId);
-        if (!guild) return;
-
-        const channel = this.findBroadcastChannel(guild);
-        if (!channel) return;
-
         const embed = this.buildBroadcastEmbed(entry, isLegendary);
-        await channel.send({ embeds: [embed] });
-    }
-
-    // Picks a channel the bot can actually post in. Prefers the guild's
-    // configured system channel, falls back to the first text channel
-    // where the bot has SendMessages + ViewChannel permissions.
-    //
-    // NOTE: for production use, store a per-guild broadcastChannelId
-    // (e.g. via a /lore setchannel admin command) instead of guessing.
-    findBroadcastChannel(guild) {
-        const me = guild.members.me;
-        if (!me) return null;
-
-        const canPost = (channel) =>
-            channel?.type === ChannelType.GuildText &&
-            channel.permissionsFor(me)?.has([
-                PermissionsBitField.Flags.ViewChannel,
-                PermissionsBitField.Flags.SendMessages
-            ]);
-
-        if (canPost(guild.systemChannel)) {
-            return guild.systemChannel;
-        }
-
-        return guild.channels.cache.find(canPost) || null;
+        await announceLoreEntry(this.client, embed);
     }
 
     buildBroadcastEmbed(entry, isLegendary) {

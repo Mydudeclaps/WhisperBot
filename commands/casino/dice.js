@@ -22,7 +22,7 @@ const {
 } = require("../../utils/casinoSessionUI");
 
 const { rollDice, resolveDiceBet, getRandomCooldown, getSessionStats, awardGameXP, logGameResult, checkCooldown, startCooldown, clearCooldown } = require("../../services/casinoService");
-const { addCoins, getCoins, hasEnoughCoins } = require("../../services/coinService");
+const { addCoins, getCoins } = require("../../services/coinService");
 const { recordBet } = require("../../services/casinoStatsService");
 const { getUser } = require("../../services/userService");
 const { npcLineForGame } = require("../../services/casinoNpcService");

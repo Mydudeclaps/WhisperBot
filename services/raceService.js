@@ -1,6 +1,6 @@
 const db = require("../database/database");
 
-const { addCoins, getCoins } = require("./coinService");
+const { addCoins } = require("./coinService");
 
 const { RACEBET } = require("../config/gameConfig");
 

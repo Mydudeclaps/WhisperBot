@@ -4,7 +4,6 @@ const {
     ButtonBuilder,
     ButtonStyle,
     StringSelectMenuBuilder,
-    ComponentType,
     MessageFlags
 } = require("discord.js");
 
@@ -18,7 +17,6 @@ const {
 const {
     getVariant,
     calculateSlotPayout,
-    getSlotDisplay,
     getSlotSymbols,
     getSlotSessionStats
 } = require("../../services/slotsService");

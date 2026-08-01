@@ -5,6 +5,7 @@ const { EmbedBuilder } = require("discord.js");
 // exactly like /hug, /rob, etc.
 const { getCommandThumbnail } = require("../../utils/embedFactory");
 const RarityEngine = require("./RarityEngine");
+const { capitalize } = require("../utils/helpers");
 
 const FOOTER_QUOTES = [
     "Reality briefly stopped loading.",
@@ -126,11 +127,6 @@ function buildSelf({ command, text, emoji }) {
 
     return { embed, files: thumb ? [thumb] : [] };
 
-}
-
-
-function capitalize(word) {
-    return word.charAt(0).toUpperCase() + word.slice(1);
 }
 
 

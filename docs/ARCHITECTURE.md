@@ -41,7 +41,9 @@ shop-engine/        → same pattern as social-engine: engine/ + data/ (JSON)
 events/            (4)  → interactionCreate.js (THE dispatcher — see below),
                             messageCreate.js, messageReactionAdd.js, voiceStateUpdate.js
 
-utils/             (11 files + embedBuilder/ subfolder)
+utils/             (14 files + embedBuilder/ subfolder, includes
+                       notificationRouter.js — see docs/updates/ for the
+                       2026-07-29 notification routing audit)
   → embedFactory.js is the single largest file in the project by a wide
     margin — every embed in casino/lore/quest/activities goes through it
 
@@ -56,10 +58,14 @@ models/            → EMPTY. Existed once (a Mongoose schema for lore,
 schedulers/        → loreBroadcast.js (only scheduled job that isn't
                        handled by services/schedulerService.js's interval)
 
-config/            (7)  → adminConfig, constants (COLORS), dailyConfig,
+config/            (10) → adminConfig, constants (COLORS), dailyConfig,
                             devConfig, gameConfig (by far the largest —
                             every casino game's tuning lives here),
-                            questChannelConfig, robberyConfig
+                            notificationConfig (centralized destination
+                            channel IDs for automated announcements —
+                            see docs/updates/ for the 2026-07-29 routing
+                            audit), numerologyConfig, questChannelConfig,
+                            robberyConfig
 
 data/               (11) → achievements, activities, cards, casinoNpcs,
                              dailyMissions, emojiTriggers, fishOutcomes,
@@ -82,7 +88,7 @@ handlers/           → commandHandler.js (loads every commands/*/*.js into
 **Controls:** the parts of casino logic genuinely shared across all 9 games — random cooldown generation (weighted tiers), persistent per-game cooldown CRUD (fixes a real bug where cooldowns used to live in a local variable and reset on session re-entry — see KNOWN_ISSUES history), casino XP/rank calculation, game history logging, favorite-game derivation. **Deliberately does NOT own DB-backed session objects** — each game's session state (bet, plays left, board/hand state) lives in local closures inside that game's own command file, because Discord interactions are already scoped to one command execution; persisting that to the DB would add complexity for zero benefit. The one exception is `/tic`'s PvP mode, which genuinely needs cross-interaction persisted state (see below).
 
 ### `services/casinoStatsService.js`
-**Controls:** `casino_stats` table reads/writes. `recordBet(userId, game, bet, netChange, won)` builds column names *dynamically* as `` `${game}_games` ``/`` `${game}_wins` `` — **any new casino game must have matching columns added to the self-healing migration in `database.js`, or every session settlement for that game will throw `no such column`.** This has actually happened (twice — see CHANGELOG) when new games shipped without their columns.
+**Controls:** `casino_stats` table reads/writes. `recordBet(userId, game, bet, netChange, won)` builds column names *dynamically* as `` `${game}_games` ``/`` `${game}_wins` `` — **any new casino game must have matching columns added to the self-healing migration in `database/database.js`, or every session settlement for that game will throw `no such column`.** This has actually happened (twice — see CHANGELOG) when new games shipped without their columns.
 
 ### `utils/embedFactory.js`
 **Controls:** essentially all embed styling for casino, lore, quests, and activities. Win=green, loss=red, jackpot=gold, neutral=blue is the established convention. New embed types get added here, not scattered across command files.

@@ -14,15 +14,15 @@ WhisperBot is not a collection of commands — it's meant to feel like a living 
 
 Be honest with yourself about this, the same way this documentation tries to be honest with you:
 
-**Deeply verified, built and tested directly, high confidence:** the entire casino system, the quest hub, the lore system's SQLite migration, the activity system, the social engine's context-menu refactor. These sections of the docs reflect code that was actually run (via a `node:sqlite` shim) and checked against real output, not just read.
+**Deeply verified, built and tested directly, high confidence:** the entire casino system, the quest hub, the lore system's SQLite migration, the activity system, the social engine's context-menu refactor, the robbery system (`/rob`) end-to-end flow and economy math (2026-07-29 audit — see `docs/updates/`). These sections of the docs reflect code that was actually run (via a `node:sqlite` shim) and checked against real output, not just read.
 
-**Structurally verified but not deeply audited:** kingdom system internals, shop-engine internals, admin tool internals, robbery system internals, the `services/embedBuilder/` and `services/events/` subfolders. Their existence, file names, and general purpose (from names + brief spot-checks of command descriptions) are confirmed accurate. Their exact internal logic has not been read line-by-line. If you're about to modify one of these, **read the actual file first** — don't trust a one-line summary in FEATURES.md as if it were a full audit.
+**Structurally verified but not deeply audited:** kingdom system internals, shop-engine internals, admin tool internals, the `services/embedBuilder/` and `services/events/` subfolders. Their existence, file names, and general purpose (from names + brief spot-checks of command descriptions) are confirmed accurate. Their exact internal logic has not been read line-by-line. If you're about to modify one of these, **read the actual file first** — don't trust a one-line summary in FEATURES.md as if it were a full audit.
 
 **Known gaps, called out explicitly rather than papered over:**
 - 6 of 13 activity commands (`hunt`, `magic`, `monster`, `museum`, `shipwreck`, `treasure`) have no matching `data/activities.js` config — they exist, load fine, and do nothing useful. Nobody has decided whether to finish these or remove them.
 - `models/` folder is empty (leftover from a since-removed MongoDB-based lore system).
 - `vipService.js` (wagered-threshold VIP ranks) is fully functional but unused — superseded by the XP-based casino rank system, kept in case it's wanted for something else later.
-- `package.json` lists `sqlite3` as a dependency; nothing uses it. Only `better-sqlite3` is real.
+- ~~`package.json` lists `sqlite3` as a dependency; nothing uses it. Only `better-sqlite3` is real.~~ Removed in the 2026-07-29 maintenance sprint.
 
 ---
 
@@ -41,7 +41,7 @@ Be honest with yourself about this, the same way this documentation tries to be 
 These aren't hypothetical warnings — each of these is something that actually happened during development:
 
 - **A cooldown stored in a local variable is not a cooldown.** It resets the instant the command re-runs. Both `casino_cooldowns` and `activity_cooldowns` exist specifically because this was shipped, reported, and fixed.
-- **Dynamic column names need matching migrations.** `casinoStatsService.recordBet(userId, game, ...)` builds `${game}_games`/`${game}_wins` as a template string. Add a new casino game without adding its two columns to `database.js`'s migration list, and the bug won't surface until someone actually finishes a session — not at load time, not at command-registration time. This has happened twice.
+- **Dynamic column names need matching migrations.** `casinoStatsService.recordBet(userId, game, ...)` builds `${game}_games`/`${game}_wins` as a template string. Add a new casino game without adding its two columns to `database/database.js`'s migration list, and the bug won't surface until someone actually finishes a session — not at load time, not at command-registration time. This has happened twice.
 - **A feature can register with Discord perfectly and still be completely broken.** All 21 context menu commands worked correctly at the "Discord shows them in the menu" level while `events/interactionCreate.js` had zero code path for `isUserContextMenuCommand()` — every click would have silently failed with no server-side error at all. The only way to catch this was tracing the actual dispatch logic, not looking at the command files themselves.
 - **Platform limits are real constraints, not suggestions.** Discord caps USER context commands at 15/guild. A docs search initially surfaced an outdated "5" figure from a third-party library's documentation before a fetch of Discord's own current developer docs gave the real number. When a platform limit matters, verify it against the primary source, not a cached number, and don't assume old training data is current.
 - **Simulate economy math before shipping, every time.** Slot machine payout tables, poker payout math, memory vault reward formulas — every one of these has had at least one real, serious bug caught only by running thousands of simulated plays and checking the actual average return, not by reading the numbers and eyeballing whether they look reasonable.

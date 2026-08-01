@@ -198,6 +198,161 @@ module.exports = {
         ],
         cooldownMessage: "The void still unsettles you...",
         cooldownEmoji: "⏳"
+    },
+
+    // ─── Added: these 6 command files existed with no matching entry
+    // here — the actual root cause of the /hunt null-reference crash.
+    // See ACTIVITY_SYSTEM_AUDIT.md for the full trace. Built to the same
+    // structure/scale as every activity above (5 outcomes, chances
+    // summing to exactly 1.0, cooldown scaled to theme/risk).
+    hunt: {
+        id: "hunt",
+        name: "Hunting",
+        emoji: "🏹",
+        description: "Hunt creatures and gather rare rewards",
+        enabled: true,
+        allowedChannels: [],
+        cooldown: { min: 60000, max: 270000 }, // 1-4.5 minutes
+        outcomes: [
+            { chance: 0.05, text: "🦌 You brought down a prize stag!", coins: { min: 450, max: 950 }, xp: { min: 9, max: 19 }, emoji: "🦌" },
+            { chance: 0.20, text: "🐇 A clean catch — good pelts and meat.", coins: { min: 190, max: 460 }, xp: { min: 4, max: 9 }, emoji: "🐇" },
+            { chance: 0.40, text: "🐿️ Small game, barely worth the arrow.", coins: { min: 40, max: 130 }, xp: { min: 2, max: 4 }, emoji: "🐿️" },
+            { chance: 0.30, text: "🌾 The trail went cold. Nothing today.", coins: { min: 5, max: 40 }, xp: { min: 0, max: 2 }, emoji: "🌾" },
+            { chance: 0.05, text: "🐉 You tracked down a legendary beast!", coins: { min: 950, max: 4600 }, xp: { min: 19, max: 46 }, emoji: "🐉" }
+        ],
+        npcLines: [
+            "The forest's quiet today. Too quiet.",
+            "Good bowstring, that one.",
+            "I've hunted these woods for twenty years.",
+            "Track carefully — some things hunt back."
+        ],
+        cooldownMessage: "Your quiver needs restocking...",
+        cooldownEmoji: "⏳"
+    },
+
+    magic: {
+        id: "magic",
+        name: "Arcane Study",
+        emoji: "✨",
+        description: "Practice spellcraft and gather arcane components",
+        enabled: true,
+        allowedChannels: [],
+        cooldown: { min: 90000, max: 300000 }, // 1.5-5 minutes
+        outcomes: [
+            { chance: 0.05, text: "🔮 You bound a rare arcane crystal!", coins: { min: 500, max: 1050 }, xp: { min: 10, max: 21 }, emoji: "🔮" },
+            { chance: 0.18, text: "✨ A minor enchantment, successfully cast.", coins: { min: 210, max: 500 }, xp: { min: 5, max: 10 }, emoji: "✨" },
+            { chance: 0.38, text: "📖 Just dusty old theory today.", coins: { min: 45, max: 140 }, xp: { min: 2, max: 5 }, emoji: "📖" },
+            { chance: 0.34, text: "💥 The spell fizzled completely.", coins: { min: 5, max: 40 }, xp: { min: 0, max: 2 }, emoji: "💥" },
+            { chance: 0.05, text: "🌌 You glimpsed a forbidden truth!", coins: { min: 1050, max: 5000 }, xp: { min: 21, max: 50 }, emoji: "🌌" }
+        ],
+        npcLines: [
+            "The weave feels unstable today.",
+            "Careful — not every spell wants to be cast.",
+            "I've studied for decades and still get surprised.",
+            "Some knowledge asks a price before it's given."
+        ],
+        cooldownMessage: "Your mana hasn't fully replenished...",
+        cooldownEmoji: "⏳"
+    },
+
+    monster: {
+        id: "monster",
+        name: "Monster Hunting",
+        emoji: "👹",
+        description: "Track and fight dangerous monsters for loot",
+        enabled: true,
+        allowedChannels: [],
+        cooldown: { min: 120000, max: 300000 }, // 2-5 minutes — combat-risky, longer cooldown
+        outcomes: [
+            { chance: 0.04, text: "👹 You slew a monster and looted its hoard!", coins: { min: 750, max: 1550 }, xp: { min: 15, max: 30 }, emoji: "👹" },
+            { chance: 0.18, text: "🗡️ A solid fight, decent spoils.", coins: { min: 260, max: 560 }, xp: { min: 6, max: 12 }, emoji: "🗡️" },
+            { chance: 0.38, text: "🩹 You won, but barely broke even.", coins: { min: 50, max: 150 }, xp: { min: 2, max: 5 }, emoji: "🩹" },
+            { chance: 0.35, text: "🏃 You retreated — not worth the risk.", coins: { min: 5, max: 40 }, xp: { min: 0, max: 2 }, emoji: "🏃" },
+            { chance: 0.05, text: "👑 You brought down a named horror!", coins: { min: 1250, max: 5600 }, xp: { min: 25, max: 56 }, emoji: "👑" }
+        ],
+        npcLines: [
+            "That thing's been terrorizing the outskirts for weeks.",
+            "Bring backup next time. I mean it.",
+            "I've still got the scar from one of those.",
+            "Some monsters remember who hunts them."
+        ],
+        cooldownMessage: "You're still nursing your wounds...",
+        cooldownEmoji: "⏳"
+    },
+
+    museum: {
+        id: "museum",
+        name: "Whisper Museum",
+        emoji: "🏛️",
+        description: "Research and catalog artifacts at the Whisper Museum",
+        enabled: true,
+        allowedChannels: [],
+        cooldown: { min: 60000, max: 240000 }, // 1-4 minutes — low-risk, scholarly
+        outcomes: [
+            { chance: 0.05, text: "🏛️ You authenticated a priceless relic!", coins: { min: 500, max: 1000 }, xp: { min: 10, max: 20 }, emoji: "🏛️" },
+            { chance: 0.20, text: "🖼️ A solid day of cataloging work.", coins: { min: 200, max: 480 }, xp: { min: 5, max: 10 }, emoji: "🖼️" },
+            { chance: 0.40, text: "📜 Routine archive work, small stipend.", coins: { min: 45, max: 140 }, xp: { min: 2, max: 4 }, emoji: "📜" },
+            { chance: 0.30, text: "🧹 Mostly dusting exhibits today.", coins: { min: 10, max: 45 }, xp: { min: 0, max: 2 }, emoji: "🧹" },
+            { chance: 0.05, text: "👑 You uncovered a lost founding-era artifact!", coins: { min: 1000, max: 5000 }, xp: { min: 20, max: 50 }, emoji: "👑" }
+        ],
+        npcLines: [
+            "The Museum remembers what the server forgets.",
+            "Careful with that display case — it's older than the server itself.",
+            "Every artifact here has a story. Yours might be next.",
+            "The curators appreciate careful hands."
+        ],
+        cooldownMessage: "The archives need time to settle...",
+        cooldownEmoji: "⏳"
+    },
+
+    shipwreck: {
+        id: "shipwreck",
+        name: "Shipwreck Diving",
+        emoji: "⚓",
+        description: "Dive sunken shipwrecks for treasure",
+        enabled: true,
+        allowedChannels: [],
+        cooldown: { min: 90000, max: 300000 }, // 1.5-5 minutes
+        outcomes: [
+            { chance: 0.05, text: "⚓ You cracked open the captain's vault!", coins: { min: 550, max: 1100 }, xp: { min: 11, max: 22 }, emoji: "⚓" },
+            { chance: 0.19, text: "🪙 A decent haul of sunken coin.", coins: { min: 220, max: 500 }, xp: { min: 5, max: 10 }, emoji: "🪙" },
+            { chance: 0.39, text: "🐚 Mostly barnacles and driftwood.", coins: { min: 45, max: 140 }, xp: { min: 2, max: 5 }, emoji: "🐚" },
+            { chance: 0.32, text: "🌊 The current swept your haul away.", coins: { min: 5, max: 40 }, xp: { min: 0, max: 2 }, emoji: "🌊" },
+            { chance: 0.05, text: "💎 You found the wreck's legendary cargo!", coins: { min: 1100, max: 5200 }, xp: { min: 22, max: 52 }, emoji: "💎" }
+        ],
+        npcLines: [
+            "That wreck's claimed more divers than treasure.",
+            "Mind your air — the depths don't wait.",
+            "I've charted a dozen wrecks. Half still hide something.",
+            "Watch for guardians. They don't share."
+        ],
+        cooldownMessage: "You're still catching your breath...",
+        cooldownEmoji: "⏳"
+    },
+
+    treasure: {
+        id: "treasure",
+        name: "Treasure Hunting",
+        emoji: "💰",
+        description: "Dig for buried treasure across the realm",
+        enabled: true,
+        allowedChannels: [],
+        cooldown: { min: 60000, max: 270000 }, // 1-4.5 minutes
+        outcomes: [
+            { chance: 0.05, text: "💰 You unearthed a buried fortune!", coins: { min: 500, max: 1050 }, xp: { min: 10, max: 21 }, emoji: "💰" },
+            { chance: 0.20, text: "🪙 A modest but solid chest of coin.", coins: { min: 210, max: 480 }, xp: { min: 5, max: 10 }, emoji: "🪙" },
+            { chance: 0.40, text: "🕳️ Mostly dirt, a few loose coins.", coins: { min: 45, max: 140 }, xp: { min: 2, max: 4 }, emoji: "🕳️" },
+            { chance: 0.30, text: "🗺️ The map led nowhere.", coins: { min: 10, max: 45 }, xp: { min: 0, max: 2 }, emoji: "🗺️" },
+            { chance: 0.05, text: "👑 You found a legendary hoard!", coins: { min: 1050, max: 5000 }, xp: { min: 21, max: 50 }, emoji: "👑" }
+        ],
+        npcLines: [
+            "X marks the spot — usually.",
+            "I've buried a thing or two myself, once.",
+            "Old maps lie more often than they tell the truth.",
+            "Dig carefully. Not everything buried wants to stay found."
+        ],
+        cooldownMessage: "Your shovel needs a rest...",
+        cooldownEmoji: "⏳"
     }
 
 };

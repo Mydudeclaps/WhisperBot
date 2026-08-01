@@ -21,7 +21,7 @@ const {
 } = require("../../utils/casinoSessionUI");
 
 const { drawCard, compareGuess } = require("../../services/cardService");
-const { addCoins, getCoins, hasEnoughCoins } = require("../../services/coinService");
+const { addCoins, getCoins } = require("../../services/coinService");
 const { recordResult, recordPush } = require("../../services/highlowService");
 const { recordBet } = require("../../services/casinoStatsService");
 const { getUser } = require("../../services/userService");

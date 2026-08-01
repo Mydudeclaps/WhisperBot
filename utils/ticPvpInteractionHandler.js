@@ -13,7 +13,7 @@ const {
     isValidMove
 } = require("../services/ticService");
 
-const { addCoins, getCoins, hasEnoughCoins } = require("../services/coinService");
+const { addCoins, hasEnoughCoins } = require("../services/coinService");
 const { recordBet } = require("../services/casinoStatsService");
 const { getUser } = require("../services/userService");
 const { awardGameXP, logGameResult } = require("../services/casinoService");

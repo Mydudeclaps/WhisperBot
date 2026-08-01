@@ -1,5 +1,4 @@
 const achievementData = require("../data/achievements");
-const { getUser } = require("./userService");
 const db = require("../database/database");
 
 

@@ -1,6 +1,6 @@
-const { SlashCommandBuilder, MessageFlags } = require("discord.js");
+const { SlashCommandBuilder } = require("discord.js");
 
-const { executeActivity, getActivity } = require("../../services/activityService");
+const { executeActivity } = require("../../services/activityService");
 const { activityResultEmbed, activityCooldownEmbed } = require("../../utils/embedFactory");
 const { getUser } = require("../../services/userService");
 
@@ -26,15 +26,13 @@ module.exports = {
 
         if (result.error) {
 
-            const config = getActivity(ACTIVITY_ID);
-            const { embed, files } = activityCooldownEmbed(config.name, result.error, result.untilUnix);
+            const { embed, files } = activityCooldownEmbed(result.name, result.error, result.untilUnix);
 
             return interaction.editReply({ embeds: [embed], files });
 
         }
 
-        const config = getActivity(ACTIVITY_ID);
-        const { embed, files } = activityResultEmbed(username, config.name, result);
+        const { embed, files } = activityResultEmbed(username, result.name, result);
 
         await interaction.editReply({ embeds: [embed], files });
 

@@ -2,12 +2,64 @@
 
 Reconstructed from this project's actual development history — real rounds of work, real bugs found and fixed, in order. Dates approximate where not explicitly recorded.
 
+## Notification Routing Audit — 2026-07-29
+### Fixed
+- **Lore Archive posts were landing in the Welcome channel.** Root cause: `schedulers/loreBroadcast.js`'s `findBroadcastChannel()` picked `guild.systemChannel` as its first choice when no explicit destination was configured — and WhisperSMP's system channel is the Welcome channel. Removed the guessing entirely; broadcasts now go to a fixed, correctly-configured Lore Archive channel.
+- **Level-up and achievement notifications had no fixed destination at all** — `events/messageCreate.js` posted both directly into `message.channel`, i.e. whatever channel the player happened to be chatting in when they crossed an XP threshold. Now routed to a dedicated Player Updates channel.
+### Added
+- `config/notificationConfig.js` — centralized destination channel IDs for all of WhisperBot's automated (non-reply) announcements: `LORE_ARCHIVE_CHANNEL_ID`, `PLAYER_UPDATES_CHANNEL_ID`, and `WELCOME_CHANNEL_ID` (kept as a documented reference point, not a posting target).
+- `utils/notificationRouter.js` — `announceLoreEntry()` and `announcePlayerProgression()`, following the same fetch-and-send-with-graceful-failure pattern already established by `utils/adminLogger.js`. Adding a new announcement type going forward is one new config constant + one new function here.
+### Discovered, not fixed
+- `services/casinoAnnouncerService.js` uses the identical `guild.systemChannel`-guessing pattern that caused the Lore Archive bug, for big-win announcements. Very likely also currently posting to the Welcome channel. No destination channel ID was specified for this one, so it wasn't redirected on a guess — see [KNOWN_ISSUES.md](KNOWN_ISSUES.md), now a one-line fix once a destination is confirmed.
+### Testing
+- Full command/module load regression (102 commands, 227 modules, zero errors).
+- `notificationRouter.js` tested directly against mocked channel fetches, including a deliberate "channel unreachable" case to confirm graceful failure (no throw).
+- `schedulers/loreBroadcast.js`'s actual `broadcastToGuild()` run end-to-end against a seeded lore entry and a mocked client — confirmed it posts to the Lore Archive channel and never touches the Welcome channel.
+- `events/messageCreate.js`'s actual `execute()` run end-to-end for a simulated level-up (which also triggered a level-based achievement), with the mock's `message.channel` rigged to throw if ever called — confirming zero fallback to the old per-channel behavior.
+### Notes
+- Full details in [docs/updates/2026-07-29-notification-routing-audit.md](updates/2026-07-29-notification-routing-audit.md).
+- No changes to XP amounts, level thresholds, achievement requirements, or reward values — only where the resulting announcements get posted.
+
+## Robbery System Audit & Completion — 2026-07-29
+### Fixed
+- **Root cause of "/rob silently stops after the victim responds":** the Discord client was missing the `GatewayIntentBits.DirectMessages` intent and the `Partials.Channel` partial. The bot could send the victim's DM fine (sending never needed these), but without them the DM channel stays uncached, which breaks `Message#awaitMessageComponent()`'s ability to reliably deliver the victim's button click back to the collector — a well-documented discord.js v14 gotcha. Added both to `bot.js`.
+- **Two negative-balance bugs in the robbery economy**, found via direct testing of all 7 outcome branches:
+  - `hidden_cash` paid a flat 40,000 coins regardless of the victim's actual balance — a victim at the 1,000-coin minimum could be driven to -39,000.
+  - `arrested` fines (up to 64,000 at max heat with a witness report) ignored the robber's actual balance — a robber at the 100-coin minimum bet could be driven to -63,900.
+  - Both are now clamped to the paying party's real balance in `services/robberyCalculator.js`, the same way normal percentage-based loot already was via `estimateLootRange()`.
+### Added
+- The victim now receives an actual result DM when the robbery resolves (`robberyVictimResultDMEmbed`, victim-perspective title/description added to `data/robberyOutcomes.js`) — previously their DM only ever showed "✅ Response received." with no indication of what happened.
+- A brief "🎲 Rolling the Outcome..." suspense beat (`robberyRollingEmbed`) in the origin channel between the victim's response and the final reveal.
+### Testing
+- Full `/rob` flow simulated end-to-end with a mocked Discord interaction (scan → estimate → proceed → execution → victim DM → click → resolve → final embed) across all 4 victim responses, a timeout, and a DMs-closed case — zero exceptions, correct coin conservation in every run.
+- All 7 outcome branches (`perfect`, `success`, `hidden_cash`, `wallet_empty`, `escaped`, `defended`, `arrested`) tested directly through the embed builders and coin-effect arithmetic.
+- Targeted edge-case tests reproduced both negative-balance bugs pre-fix and confirmed the clamp fixes hold post-fix (balances land at exactly 0, never below).
+### Notes
+- Full details in [docs/updates/2026-07-29-robbery-audit.md](updates/2026-07-29-robbery-audit.md).
+- No changes to bet limits, success-chance formulas, loot percentages, cooldowns, or any other existing balance numbers — only the two out-of-bounds edge cases above were touched.
+
+## Maintenance & Cleanup Sprint — 2026-07-29
+### Fixed
+- Removed a stale, out-of-date duplicate `database.js` at the project root (missing the casino expansion, `tic_challenges`, and numerology tables present in the real `database/database.js`). Nothing required it; it was dead weight that risked confusing a future edit.
+- Removed 20 confirmed-unused imports across `services/`, `utils/`, `social-engine/`, and several `commands/casino/*` and `commands/activities/*` files (verified individually — not a blind regex pass).
+- Removed unused `sqlite3` dependency from `package.json`. See [KNOWN_ISSUES.md](KNOWN_ISSUES.md).
+### Changed
+- Consolidated three duplicate `sleep()`/`capitalize()` helper implementations in the social-engine module into the existing shared `social-engine/utils/helpers.js`.
+- Archived `docs/README_FIX.md` → `docs/updates/LORE_MONGODB_TO_SQLITE_MIGRATION.md` with a historical-status header, since the patch it describes is already fully merged.
+- Corrected several docs that referred to `database.js` where they meant `database/database.js` (AI_CONTEXT.md, ARCHITECTURE.md, DATABASE.md).
+### Removed
+- Orphaned root-level `testStats.js` manual test script (unreferenced anywhere).
+### Notes
+- Full details in [docs/updates/2026-07-29-maintenance-cleanup.md](updates/2026-07-29-maintenance-cleanup.md).
+- No gameplay, economy, database schema, or command-facing behavior changed. All 102 commands and 225 modules verified to load with zero errors before and after this sprint.
+
 ## Lore System — SQLite Migration
 ### Fixed
 - `/lore` was throwing `MongooseError: buffering timed out` — the bot never connected to MongoDB anywhere; every other feature already ran on the local SQLite database. Migrated the entire lore feature onto `better-sqlite3` (new `lore` table, `services/loreService.js` rewritten).
 - `archive_number` was globally unique instead of per-guild, which would break the moment a second guild used the feature. Fixed to a compound unique index on `(guild_id, archive_number)`.
 - Broadcast channel picker didn't check bot permissions before posting, causing silent failures. Now checks `ViewChannel`+`SendMessages` first.
 - `/lore approve` went from a stubbed-out TODO to a real Accept/Reject button flow.
+
 
 ## Casino System — Initial Build (Phases 1-3)
 ### Added

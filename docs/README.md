@@ -21,7 +21,7 @@ WhisperBot is a cinematic Discord bot built for the **WhisperSMP** community —
 
 **Current development status:** Actively developed, in real use. The casino system in particular has been through several rounds of real bug fixes (see [KNOWN_ISSUES.md](KNOWN_ISSUES.md) and [CHANGELOG.md](CHANGELOG.md) for specifics) — this isn't a "finished, never-touched-again" codebase, and this documentation set is meant to be updated again the next time something changes.
 
-**Note on `package.json`:** it lists both `better-sqlite3` and `sqlite3` as dependencies. Only `better-sqlite3` is actually used anywhere in the code — `sqlite3` is unused dead weight (verified: zero `require("sqlite3")` anywhere in the source tree). Safe to remove, just never got cleaned up.
+**Note on `package.json`:** it used to list both `better-sqlite3` and an unused `sqlite3` package. `sqlite3` was removed in the 2026-07-29 maintenance sprint (verified: zero `require("sqlite3")` anywhere in the source tree) — `better-sqlite3` is the only SQLite driver in use.
 
 ---
 
