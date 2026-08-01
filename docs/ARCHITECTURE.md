@@ -41,7 +41,9 @@ shop-engine/        → same pattern as social-engine: engine/ + data/ (JSON)
 events/            (4)  → interactionCreate.js (THE dispatcher — see below),
                             messageCreate.js, messageReactionAdd.js, voiceStateUpdate.js
 
-utils/             (11 files + embedBuilder/ subfolder)
+utils/             (14 files + embedBuilder/ subfolder, includes
+                       notificationRouter.js — see docs/updates/ for the
+                       2026-07-29 notification routing audit)
   → embedFactory.js is the single largest file in the project by a wide
     margin — every embed in casino/lore/quest/activities goes through it
 
@@ -56,10 +58,14 @@ models/            → EMPTY. Existed once (a Mongoose schema for lore,
 schedulers/        → loreBroadcast.js (only scheduled job that isn't
                        handled by services/schedulerService.js's interval)
 
-config/            (7)  → adminConfig, constants (COLORS), dailyConfig,
+config/            (10) → adminConfig, constants (COLORS), dailyConfig,
                             devConfig, gameConfig (by far the largest —
                             every casino game's tuning lives here),
-                            questChannelConfig, robberyConfig
+                            notificationConfig (centralized destination
+                            channel IDs for automated announcements —
+                            see docs/updates/ for the 2026-07-29 routing
+                            audit), numerologyConfig, questChannelConfig,
+                            robberyConfig
 
 data/               (11) → achievements, activities, cards, casinoNpcs,
                              dailyMissions, emojiTriggers, fishOutcomes,

@@ -23,7 +23,9 @@ const {
     robberyVictimDMEmbed,
     robberyChannelPingEmbed,
     robberyTimeoutNote,
-    robberyResultEmbed
+    robberyResultEmbed,
+    robberyRollingEmbed,
+    robberyVictimResultDMEmbed
 } = require("../../utils/embedFactory");
 
 
@@ -287,6 +289,17 @@ module.exports = {
                 interaction.channel
             );
 
+            // --- Suspense beat before the reveal ---
+            const { embed: rollingEmbed, files: rollingFiles } = robberyRollingEmbed(victim.username);
+
+            await interaction.editReply({
+                embeds: [rollingEmbed],
+                files: rollingFiles,
+                components: []
+            });
+
+            await sleep(1500);
+
             // --- Resolve outcome ---
             const freshRobberStats = getRobberyStats(robberId);
 
@@ -297,6 +310,7 @@ module.exports = {
                 streak: freshRobberStats.streak,
                 victimResponse,
                 victimCoins: getCoins(victim.id),
+                robberCoins: getCoins(robberId),
                 bet
             });
 
@@ -354,6 +368,35 @@ module.exports = {
                 files: resultFiles,
                 components: []
             });
+
+            // --- Victim notification ---
+            // The victim's DM only ever showed "Response received" up to
+            // this point — they never actually learned how the robbery
+            // they were part of turned out. Best-effort only: a victim
+            // with DMs closed already has "ignore" as their locked-in
+            // response from getVictimResponse, so a failure here changes
+            // nothing about the already-applied outcome.
+            try {
+
+                const { embed: victimDmEmbed, files: victimDmFiles } = robberyVictimResultDMEmbed(
+                    robberUsername,
+                    victim.username,
+                    outcomeMeta,
+                    result,
+                    getCoins(victim.id)
+                );
+
+                await victim.send({
+                    embeds: [victimDmEmbed],
+                    files: victimDmFiles
+                });
+
+            } catch (dmErr) {
+
+                // DMs closed or victim blocked the bot — the public result
+                // in the origin channel is still the source of truth.
+
+            }
 
         } catch (err) {
 

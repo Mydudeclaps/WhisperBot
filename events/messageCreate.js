@@ -26,6 +26,10 @@ const {
     addXP
 } = require("../services/xpService");
 
+const {
+    announcePlayerProgression
+} = require("../utils/notificationRouter");
+
 // ─── Numerology ──────────────────────────────────────────────────────
 // All the actual game logic/orchestration lives in
 // utils/numerologyMessageHandler.js — this file only needs to know
@@ -123,7 +127,10 @@ module.exports = {
 
 
 
-        // Level up message
+        // Level up message — announced in the dedicated Player Updates
+        // channel (config/notificationConfig.js), not the chat channel the
+        // triggering message happened to be sent in. See docs/updates/ for
+        // the 2026-07-29 notification routing audit.
 
         if (result.leveledUp) {
 
@@ -137,23 +144,21 @@ module.exports = {
             );
 
 
-            await message.channel.send({
+            await announcePlayerProgression(
 
-                embeds: [
+                message.client,
 
-                    levelUpEmbed(
+                levelUpEmbed(
 
-                        message.author.username,
+                    message.author.username,
 
-                        result.newLevel,
+                    result.newLevel,
 
-                        reward
+                    reward
 
-                    )
+                )
 
-                ]
-
-            });
+            );
 
 
         }
@@ -174,17 +179,15 @@ module.exports = {
                         achievementId
                     );
 
-                await message.channel.send({
+                await announcePlayerProgression(
 
-                    embeds: [
+                    message.client,
 
-                        achievementEmbed(
-                            achievement
-                        )
+                    achievementEmbed(
+                        achievement
+                    )
 
-                    ]
-
-                });
+                );
 
             }
 

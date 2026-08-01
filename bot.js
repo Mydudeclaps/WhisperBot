@@ -14,7 +14,7 @@ const {
     startScheduler
 } = require("./services/schedulerService");
 
-const { Client, GatewayIntentBits, Collection } = require("discord.js");
+const { Client, GatewayIntentBits, Collection, Partials } = require("discord.js");
 
 const { loadCommands } = require("./handlers/commandHandler");
 
@@ -40,8 +40,19 @@ const client = new Client({
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.MessageContent,
         GatewayIntentBits.GuildVoiceStates,
-        GatewayIntentBits.GuildMessageReactions
-    
+        GatewayIntentBits.GuildMessageReactions,
+        // Required for /rob's victim-response DM flow: without this intent
+        // (and the Channel partial below), DM channels the bot didn't
+        // originate stay "partial"/uncached, and button interactions sent
+        // back from inside them can fail to resolve through
+        // Message#awaitMessageComponent() — the DM sends fine, but the
+        // victim's click on Defend/Run/etc. never reaches the collector.
+        // See docs/updates/ for the robbery-system audit that traced this.
+        GatewayIntentBits.DirectMessages
+
+    ],
+    partials: [
+        Partials.Channel
     ]
 });
 

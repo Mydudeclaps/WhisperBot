@@ -75,6 +75,8 @@ function estimateLootRange(victimCoins) {
 
 
 // Runs the full weighted outcome pipeline for a resolved robbery attempt.
+// `robberCoins` is used only to clamp fines so an arrest can never push the
+// robber below 0 — it does not affect odds or loot.
 // Returns an outcome id plus everything needed to apply its effects:
 //   { outcome, loot, heatDelta, streakReset, cooldownSeconds,
 //     successChance, randomRoll, fine }
@@ -85,8 +87,17 @@ function resolveRobbery({
     streak,
     victimResponse,
     victimCoins,
+    robberCoins,
     bet
 }) {
+
+    // Fines and flat loot amounts below are clamped to what the paying
+    // party actually has — without this, a low-balance robber facing a
+    // large arrest fine (or a low-balance victim hit by the flat
+    // hidden_cash payout) could be driven into a negative coin balance.
+    // Normal percentage-based loot is already safe since
+    // estimateLootRange() derives its range from victimCoins directly.
+    const clampFine = (amount) => Math.max(0, Math.min(amount, robberCoins ?? amount));
 
     // Run — the victim may simply get away before any of the rest matters.
     if (victimResponse === "run" && Math.random() < ROB.RUN_ESCAPE_CHANCE) {
@@ -107,7 +118,7 @@ function resolveRobbery({
     // Arrest — a flat independent chance regardless of anything else.
     if (Math.random() < ROB.ARREST_CHANCE) {
 
-        const fine = ROB.ARREST_FINE_BASE + (heat || 0) * ROB.ARREST_FINE_PER_HEAT;
+        const fine = clampFine(ROB.ARREST_FINE_BASE + (heat || 0) * ROB.ARREST_FINE_PER_HEAT);
 
         return {
             outcome: "arrested",
@@ -132,7 +143,7 @@ function resolveRobbery({
 
         if (Math.random() < ROB.WITNESS_REPORT_CHANCE) {
 
-            const fine = (ROB.ARREST_FINE_BASE + (heat || 0) * ROB.ARREST_FINE_PER_HEAT) * 2;
+            const fine = clampFine((ROB.ARREST_FINE_BASE + (heat || 0) * ROB.ARREST_FINE_PER_HEAT) * 2);
 
             return {
                 outcome: "arrested",
@@ -195,7 +206,7 @@ function resolveRobbery({
 
         return {
             outcome: "hidden_cash",
-            loot: 40000,
+            loot: Math.min(40000, victimCoins),
             heatDelta: 1,
             streakReset: false,
             cooldownSeconds: ROB.COOLDOWN,

@@ -1404,7 +1404,83 @@ function robberyTimeoutNote() {
 }
 
 
-// Final result, shown to the robber (and reused for the victim's DM follow-up)
+// Brief suspense beat shown in the origin channel between the victim's
+// response coming in and the outcome being revealed — keeps the reveal
+// from feeling like an instant cut from "DM sent" to "here's the result."
+function robberyRollingEmbed(victimUsername) {
+
+    const embed = new EmbedBuilder()
+        .setTitle("🎲 Rolling the Outcome...")
+        .setColor(COLORS.INFO)
+        .setDescription(`The dust settles between you and **${victimUsername}**...`)
+        .setFooter({ text: "WhisperBot • Robbery" });
+
+    return withThumbnailAndImageSeparate(embed, "rob", "rob_banner");
+
+}
+
+
+// Final result, sent as a DM follow-up to the victim once the robbery
+// resolves — mirrors robberyResultEmbed's content but written from the
+// victim's point of view (their own balance, not the robber's) since it's
+// their DM. Without this, the only thing a victim ever saw in their DMs
+// was "Response received" with no idea how the robbery actually went.
+function robberyVictimResultDMEmbed(robberUsername, victimUsername, outcomeMeta, result, newVictimBalance) {
+
+    const { outcome, loot, successChance } = result;
+
+    const colorMap = {
+        perfect: COLORS.ERROR,
+        success: COLORS.ERROR,
+        hidden_cash: COLORS.ERROR,
+        wallet_empty: COLORS.ERROR,
+        escaped: COLORS.WARNING,
+        defended: COLORS.SUCCESS,
+        arrested: COLORS.SUCCESS
+    };
+
+    const embed = new EmbedBuilder()
+        .setTitle(outcomeMeta.victimTitle || outcomeMeta.title)
+        .setColor(colorMap[outcome] || COLORS.INFO)
+        .setDescription(`**${robberUsername}** targeted you.\n\n${outcomeMeta.victimDescription || outcomeMeta.description}`)
+        .addFields({
+            name: "🎲 Their Success Chance",
+            value: `${Math.round(successChance * 100)}%`,
+            inline: true
+        })
+        .setFooter({ text: "WhisperBot • Robbery" })
+        .setTimestamp();
+
+    if (["perfect", "success", "hidden_cash", "wallet_empty"].includes(outcome)) {
+
+        embed.addFields({
+            name: "💸 Stolen From You",
+            value: `-${loot.toLocaleString()} coins`,
+            inline: true
+        });
+
+    } else if (outcome === "defended") {
+
+        embed.addFields({
+            name: "💰 Recovered From Them",
+            value: `+${Math.abs(loot).toLocaleString()} coins`,
+            inline: true
+        });
+
+    }
+
+    embed.addFields({
+        name: "💵 Your Balance",
+        value: colorText(newVictimBalance.toLocaleString(), ANSI.CYAN),
+        inline: false
+    });
+
+    return withThumbnailAndImageSeparate(embed, "rob", "rob_banner");
+
+}
+
+
+
 function robberyResultEmbed(robberUsername, victimUsername, outcomeMeta, result, newRobberBalance) {
 
     const { outcome, loot, fine, successChance } = result;
@@ -3107,6 +3183,10 @@ module.exports = {
     robberyTimeoutNote,
 
     robberyResultEmbed,
+
+    robberyRollingEmbed,
+
+    robberyVictimResultDMEmbed,
 
     colorText,
 

@@ -25,6 +25,15 @@
 
 ---
 
+### `casinoAnnouncerService.js` has the same channel-guessing risk the Lore Archive bug had
+**Description:** Big casino win announcements (`maybeAnnounceWin()`) pick a destination channel by guessing — `findAnnounceChannel()` prefers `guild.systemChannel`, falling back to the first postable text channel — the exact same pattern that caused scheduled Lore Archive posts to land in WhisperSMP's Welcome channel instead of the Lore Archive channel (see `docs/updates/2026-07-29-notification-routing-audit.md`). This means casino win announcements are very likely *also* currently landing in the Welcome channel today, since `guild.systemChannel` is the same channel either way.
+**Location:** `services/casinoAnnouncerService.js` (`findAnnounceChannel()`)
+**Why it wasn't fixed alongside the Lore Archive routing fix:** no destination channel ID for casino win announcements was specified as part of that audit's scope (only Lore Archive and Player Updates channel IDs were given), and redirecting a working, unrequested system's destination on a guess risked being wrong. `utils/notificationRouter.js` and `config/notificationConfig.js` already exist and are built to make this a one-line fix (add a `CASINO_ANNOUNCER_CHANNEL_ID` constant + one `announceCasinoWin()` function) whenever the intended destination is confirmed.
+**Status:** ⚠️ Unresolved, flagged for awareness. Behavior unchanged from before this audit.
+**Fix attempts:** None yet — awaiting a decision on destination channel.
+
+---
+
 ## Technical Debt
 
 ### `commandHandler.js`'s command Map has no type separation
