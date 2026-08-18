@@ -29,6 +29,7 @@ const { npcLineForGame } = require("../../services/casinoNpcService");
 const { contribute: contributeJackpot, rollJackpot, winJackpot } = require("../../services/jackpotService");
 const { maybeAnnounceWin } = require("../../services/casinoAnnouncerService");
 const { unlockAchievement, giveAchievementRewards } = require("../../services/achievementService");
+const { isSlotMachineEnabled } = require("../../services/casinoAvailabilityService");
 const db = require("../../database/database");
 const { SLOTS, CASINO_XP } = require("../../config/gameConfig");
 
@@ -84,10 +85,12 @@ function idlePlaceholder(machineKey, layout) {
 
 function machineSelectRow(selectedValue = null) {
 
+    const availableMachines = MACHINE_OPTIONS.filter(option => isSlotMachineEnabled(option.value));
+
     const menu = new StringSelectMenuBuilder()
         .setCustomId("slots_machine_select")
         .setPlaceholder("Select Machine")
-        .addOptions(MACHINE_OPTIONS.map(o => ({ ...o, default: o.value === selectedValue })));
+        .addOptions(availableMachines.map(o => ({ ...o, default: o.value === selectedValue })));
 
     return new ActionRowBuilder().addComponents(menu);
 
@@ -220,6 +223,17 @@ module.exports = {
             if (choice.customId === "slots_machine_select") {
 
                 machineKey = choice.values[0];
+
+                if (!isSlotMachineEnabled(machineKey)) {
+                    machineKey = null;
+                    await choice.update(renderSetup());
+                    await interaction.followUp({
+                        content: "🌎 Kingdom Slots is temporarily unavailable while its payout table is being balanced.",
+                        flags: MessageFlags.Ephemeral
+                    });
+                    continue;
+                }
+
                 await choice.update(renderSetup());
 
             } else if (choice.customId === "slots_bet_select") {
@@ -246,6 +260,16 @@ module.exports = {
 
                 if (!machineKey || !betAmount) {
                     await choice.deferUpdate();
+                    continue;
+                }
+
+                if (!isSlotMachineEnabled(machineKey)) {
+                    machineKey = null;
+                    await choice.update(renderSetup());
+                    await interaction.followUp({
+                        content: "🌎 Kingdom Slots is temporarily unavailable while its payout table is being balanced.",
+                        flags: MessageFlags.Ephemeral
+                    });
                     continue;
                 }
 
@@ -422,6 +446,14 @@ module.exports = {
             }
 
             if (choice.customId === "slots_spin") {
+
+                if (!isSlotMachineEnabled(machineKey)) {
+                    return choice.update({
+                        content: "🌎 This machine was taken offline for payout balancing. Your balance was not changed.",
+                        embeds: [],
+                        components: []
+                    });
+                }
 
                 if (spinsLeft <= 0 || cooldownUntil) {
                     await choice.deferUpdate();

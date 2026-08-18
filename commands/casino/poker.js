@@ -28,6 +28,7 @@ const { frankPokerLine } = require("../../services/casinoNpcService");
 const { contribute: contributeJackpot } = require("../../services/jackpotService");
 const { getRandomCooldown, getSessionStats, awardGameXP, logGameResult, checkCooldown, startCooldown, clearCooldown } = require("../../services/casinoService");
 const { unlockAchievement, giveAchievementRewards } = require("../../services/achievementService");
+const { isPokerEnabled } = require("../../services/casinoAvailabilityService");
 const { POKER, CASINO_SESSION } = require("../../config/gameConfig");
 
 const GAME_TITLE = "♠️ PROGRESSIVE 3-CARD POKER — Dealer Frank";
@@ -93,6 +94,13 @@ module.exports = {
         .setDescription("♠️ Sit down at Progressive Three Card Poker — beat the dealer's hand to win"),
 
     async execute(interaction) {
+
+        if (!isPokerEnabled()) {
+            return interaction.reply({
+                content: "♠️ Poker is temporarily unavailable while its payout table is being balanced.",
+                flags: MessageFlags.Ephemeral
+            });
+        }
 
         const userId = interaction.user.id;
         const username = interaction.user.username;

@@ -41,6 +41,14 @@ The service stores SQLite data in the `whisperbot-data` named volume and logs in
 `whisperbot-logs`. Its Docker health check fails if Discord never reaches the
 ready event or if the runtime heartbeat becomes stale.
 
+## Casino safety gates
+
+`config/features.json` keeps Progressive Three Card Poker and Kingdom Slots
+disabled by default because their documented payout tables currently return
+more than their wagers over time. The `/poker` command fails closed, and the
+Kingdom machine is omitted from `/slots` with server-side rechecks. Re-enable
+either feature only after its payout table has been reviewed and tested.
+
 ## Backups
 
 Run `npm run backup` inside the service. It uses SQLite's online backup API and
