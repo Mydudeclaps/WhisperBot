@@ -5,14 +5,15 @@ its economy is backed by SQLite.
 
 ## Required Discord configuration
 
-Create a host-only environment file at `/etc/whisperbot/whisperbot.env` from
-`.env.example` and supply:
+Provide a host-only token file containing exactly one line: the Discord bot
+token. `compose.yaml` mounts it read-only at runtime through Docker secrets.
+Override its host location with `WHISPERBOT_DISCORD_TOKEN_FILE` when needed.
 
-- `DISCORD_TOKEN` — bot token
-- `CLIENT_ID` — Discord application ID
+- `DISCORD_TOKEN_FILE` — mounted bot-token file (preferred)
 - `GUILD_ID` — server used for guild-scoped command registration
+- `CLIENT_ID` — optional; command registration discovers it from Discord when omitted
 
-Never commit that file. The application must have the Guild Members and Message
+Never commit the token file. The application must have the Guild Members and Message
 Content privileged intents enabled because existing features consume both.
 
 ## Build and validate

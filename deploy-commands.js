@@ -1,7 +1,11 @@
 require("dotenv").config();
 
-const requiredEnvironment = ["DISCORD_TOKEN", "CLIENT_ID", "GUILD_ID"];
-const missingEnvironment = requiredEnvironment.filter(key => !process.env[key]);
+const { loadDiscordToken } = require("./config/discordCredentials");
+const discordToken = loadDiscordToken();
+const missingEnvironment = [];
+
+if (!discordToken) missingEnvironment.push("DISCORD_TOKEN or DISCORD_TOKEN_FILE");
+if (!process.env.GUILD_ID) missingEnvironment.push("GUILD_ID");
 
 if (missingEnvironment.length > 0) {
     console.error(`Missing required environment variables: ${missingEnvironment.join(", ")}`);
@@ -128,16 +132,36 @@ if (contextCommandCount > 15) {
 }
 
 const rest = new REST({ version: "10" })
-    .setToken(process.env.DISCORD_TOKEN);
+    .setToken(discordToken);
+
+async function resolveClientId() {
+    if (process.env.CLIENT_ID) return process.env.CLIENT_ID;
+
+    const response = await fetch("https://discord.com/api/v10/oauth2/applications/@me", {
+        headers: {
+            Authorization: `Bot ${discordToken}`,
+            "User-Agent": "WhisperBot command registration"
+        }
+    });
+
+    if (!response.ok) {
+        throw new Error(`Could not discover Discord application ID (HTTP ${response.status})`);
+    }
+
+    const application = await response.json();
+    return application.id;
+}
 
 async function deployCommands() {
     console.log("Refreshing slash commands...");
+
+    const clientId = await resolveClientId();
 
     await rest.put(
 
             Routes.applicationGuildCommands(
 
-                process.env.CLIENT_ID,
+                clientId,
                 process.env.GUILD_ID
 
             ),

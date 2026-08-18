@@ -1,7 +1,10 @@
 require("dotenv").config();
 
-if (!process.env.DISCORD_TOKEN) {
-    console.error("Missing required environment variable: DISCORD_TOKEN");
+const { loadDiscordToken } = require("./config/discordCredentials");
+const discordToken = loadDiscordToken();
+
+if (!discordToken) {
+    console.error("Missing Discord token: set DISCORD_TOKEN or DISCORD_TOKEN_FILE");
     process.exit(1);
 }
 
@@ -126,7 +129,7 @@ async function shutdown(signal) {
 process.once("SIGTERM", () => shutdown("SIGTERM"));
 process.once("SIGINT", () => shutdown("SIGINT"));
 
-client.login(process.env.DISCORD_TOKEN).catch(error => {
+client.login(discordToken).catch(error => {
     console.error("Discord login failed:", error.message);
     process.exit(1);
 });

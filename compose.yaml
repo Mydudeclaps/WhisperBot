@@ -6,11 +6,13 @@ services:
     container_name: whisperbot
     restart: unless-stopped
     init: true
-    env_file:
-      - ${WHISPERBOT_ENV_FILE:-/etc/whisperbot/whisperbot.env}
     environment:
+      DISCORD_TOKEN_FILE: /run/secrets/discord_token
+      GUILD_ID: ${GUILD_ID:-1478108083593941063}
       WHISPERBOT_DB_PATH: /data/whisperbot.db
       WHISPERBOT_HEALTH_PATH: /tmp/whisperbot-health.json
+    secrets:
+      - discord_token
     volumes:
       - whisperbot-data:/data
       - whisperbot-logs:/app/logs
@@ -25,3 +27,7 @@ services:
 volumes:
   whisperbot-data:
   whisperbot-logs:
+
+secrets:
+  discord_token:
+    file: ${WHISPERBOT_DISCORD_TOKEN_FILE:-/root/downloads/discord2.md}
