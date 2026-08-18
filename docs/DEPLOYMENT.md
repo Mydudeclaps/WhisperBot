@@ -24,6 +24,9 @@ npm run check
 docker compose build
 ```
 
+For the complete release proof—including repeating the suites inside the built
+container—run `npm run verify:candidate`.
+
 ## Register commands and start
 
 ```bash

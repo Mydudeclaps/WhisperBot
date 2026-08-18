@@ -8,7 +8,8 @@
     "deploy:commands": "node deploy-commands.js",
     "test": "node --test --test-concurrency=1",
     "check": "node scripts/check-command-graph.js",
-    "backup": "node scripts/backup-db.js"
+    "backup": "node scripts/backup-db.js",
+    "verify:candidate": "bash scripts/verify-candidate.sh"
   },
   "keywords": [],
   "author": "",
