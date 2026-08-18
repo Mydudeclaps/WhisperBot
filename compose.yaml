@@ -1,0 +1,27 @@
+services:
+  whisperbot:
+    build:
+      context: .
+    image: whisperbot:local
+    container_name: whisperbot
+    restart: unless-stopped
+    init: true
+    env_file:
+      - ${WHISPERBOT_ENV_FILE:-/etc/whisperbot/whisperbot.env}
+    environment:
+      WHISPERBOT_DB_PATH: /data/whisperbot.db
+      WHISPERBOT_HEALTH_PATH: /tmp/whisperbot-health.json
+    volumes:
+      - whisperbot-data:/data
+      - whisperbot-logs:/app/logs
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m,mode=1777
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+
+volumes:
+  whisperbot-data:
+  whisperbot-logs:

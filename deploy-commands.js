@@ -1,5 +1,13 @@
 require("dotenv").config();
 
+const requiredEnvironment = ["DISCORD_TOKEN", "CLIENT_ID", "GUILD_ID"];
+const missingEnvironment = requiredEnvironment.filter(key => !process.env[key]);
+
+if (missingEnvironment.length > 0) {
+    console.error(`Missing required environment variables: ${missingEnvironment.join(", ")}`);
+    process.exit(1);
+}
+
 const fs = require("fs");
 const path = require("path");
 const { REST, Routes } = require("discord.js");
@@ -105,8 +113,6 @@ for (const folder of commandFolders) {
 
 const contextCommandCount = commands.filter(c => c.type === 2).length;
 
-console.log("CLIENT ID:", process.env.CLIENT_ID);
-console.log("GUILD ID:", process.env.GUILD_ID);
 console.log("COMMAND COUNT:", commands.length);
 console.log(`USER (context menu) COMMAND COUNT: ${contextCommandCount} / 15 max`);
 
@@ -125,12 +131,9 @@ const rest = new REST({ version: "10" })
     .setToken(process.env.DISCORD_TOKEN);
 
 async function deployCommands() {
+    console.log("Refreshing slash commands...");
 
-    try {
-
-        console.log("Refreshing slash commands...");
-
-        await rest.put(
+    await rest.put(
 
             Routes.applicationGuildCommands(
 
@@ -145,16 +148,13 @@ async function deployCommands() {
 
             }
 
-        );
+    );
 
-        console.log("✅ Slash commands registered!");
-
-    } catch (error) {
-
-        console.error(error);
-
-    }
+    console.log("✅ Slash commands registered!");
 
 }
 
-deployCommands();
+deployCommands().catch(error => {
+    console.error("❌ Slash command registration failed:", error.message);
+    process.exitCode = 1;
+});

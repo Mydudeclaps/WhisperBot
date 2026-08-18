@@ -36,6 +36,9 @@ function formatDuration(seconds) {
 }
 
 function stockLine(item) {
+    if (item.unlimited_stock) {
+        return 'Stock: Unlimited';
+    }
     if (item.current_stock > 0) {
         return `Stock: ${item.current_stock}/${item.max_stock}`;
     }

@@ -12,6 +12,7 @@ const ShopManager = require("../../shop-engine/engine/ShopManager");
 const PurchaseManager = require("../../shop-engine/engine/PurchaseManager");
 const { getRarityEmoji, stockLine, getItemImageAttachment } = require("../../shop-engine/utils/shopHelpers");
 const { withThumbnail } = require("../../utils/embedFactory");
+const { buildCrateOpenRow } = require("../../utils/crateComponents");
 
 const SEPARATOR = "━━━━━━━━━━━━━━━━━━━━━━━━━━";
 const SESSION_TIMEOUT_MS = 300000; // 5 minutes
@@ -230,7 +231,17 @@ module.exports = {
     // ---------------------------------------------------------------------
 
     async handlePurchase(i, session, itemId) {
-        const result = await PurchaseManager.purchase(i.user.id, i.user.username, itemId, 1);
+        const result = await PurchaseManager.purchase(
+            i.user.id,
+            i.user.username,
+            itemId,
+            1,
+            "global",
+            {
+                interactionId: i.id,
+                guildId: i.guildId
+            }
+        );
 
         if (!result.success) {
             const message = {
@@ -238,18 +249,23 @@ module.exports = {
                 invalid_quantity: "❌ Invalid quantity.",
                 insufficient_funds: "❌ You don't have enough coins for that.",
                 out_of_stock: "❌ That item just sold out — someone beat you to it!",
-                payment_failed: "⚠️ Payment failed. You were not charged.",
-                inventory_failed: "⚠️ Could not add the item to your inventory. You were not charged."
+                daily_limit: "⏳ You have purchased all 3 Whisper Crate Keys available to you today. Return after the UTC reset.",
+                already_processed: "✅ That purchase was already processed. You were not charged twice.",
+                invalid_price: "⚠️ That item's price is invalid. Staff have been notified.",
+                transaction_failed: "⚠️ The marketplace could not complete the transaction. You were not charged."
             }[result.reason] || "⚠️ Purchase failed. Please try again.";
 
             await i.reply({ content: message, flags: MessageFlags.Ephemeral });
             return;
         }
 
+        const isCrateKey = result.item.metadata?.grant_type === "crate_key";
         await i.reply({
             content: `✅ Purchased **${result.item.name}** ${result.item.emoji} for **${result.totalPrice.toLocaleString()} coins**. ` +
-                      `Balance: **${result.newBalance.toLocaleString()} coins**.`,
-            flags: MessageFlags.Ephemeral
+                      `Balance: **${result.newBalance.toLocaleString()} coins**.` +
+                      (isCrateKey ? " Use `/crate open` or the button below." : ""),
+            flags: MessageFlags.Ephemeral,
+            components: isCrateKey ? [buildCrateOpenRow(i.user.id)] : []
         });
 
         // Refresh the underlying shop message so stock/coins reflect the purchase.

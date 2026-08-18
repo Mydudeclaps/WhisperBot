@@ -74,6 +74,6 @@
         "description": "Rotating wares from distant lands",
         "greeting": "I travel far and wide for the finest goods.",
         "icon_url": null,
-        "items": ["mystery_box", "rare_seed", "star_fragment", "dragon_scale"]
+        "items": ["discord_crate_key", "rare_seed", "star_fragment", "dragon_scale"]
     }
 }

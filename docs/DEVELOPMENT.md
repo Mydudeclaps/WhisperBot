@@ -38,7 +38,7 @@
 
 ## Testing Practice (established across this project's actual development)
 
-There's no automated test suite. The practice that's actually been used, round after round:
+Run `npm test` for the automated marketplace/crate transaction suite and `npm run check` for the full Discord command graph and crate configuration validation. Broader systems still use the established focused verification practice below:
 
 1. **Syntax check every touched file:** `node --check path/to/file.js`
 2. **Require-graph test:** actually `require()` every touched module (and anything that imports it) to catch missing-import errors that `--check` alone won't find

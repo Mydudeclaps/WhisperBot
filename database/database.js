@@ -1,7 +1,16 @@
 const Database = require("better-sqlite3");
 
 
-const db = new Database("whisperbot.db");
+const dbPath = process.env.WHISPERBOT_DB_PATH || "whisperbot.db";
+const db = new Database(dbPath);
+
+// WhisperBot is intentionally a single-replica SQLite service. WAL keeps
+// reads responsive while a purchase/opening transaction is being committed,
+// and busy_timeout turns brief lock contention into a bounded wait instead of
+// a player-facing failure.
+db.pragma("journal_mode = WAL");
+db.pragma("foreign_keys = ON");
+db.pragma("busy_timeout = 5000");
 
 
 db.prepare(`
@@ -668,6 +677,80 @@ db.prepare(`
 db.prepare(`
     CREATE INDEX IF NOT EXISTS idx_numerology_mistakes_user
     ON numerology_mistakes (user_id, occurred_at)
+`).run();
+
+
+// ---------------------------------------------------------------------
+// Whisper Marketplace + Discord crates
+// ---------------------------------------------------------------------
+
+db.prepare(`
+    CREATE TABLE IF NOT EXISTS shop_purchases (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        interaction_id TEXT,
+        guild_id TEXT,
+        user_id TEXT NOT NULL,
+        item_id TEXT NOT NULL,
+        item_name TEXT,
+        price INTEGER,
+        quantity INTEGER,
+        total_price INTEGER,
+        purchased_at TEXT
+    )
+`).run();
+
+for (const column of [
+    "interaction_id TEXT",
+    "guild_id TEXT"
+]) {
+    try {
+        db.prepare(`
+            ALTER TABLE shop_purchases
+            ADD COLUMN ${column}
+        `).run();
+    } catch (e) {
+        // Column already exists — nothing to do.
+    }
+}
+
+db.prepare(`
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_shop_purchases_interaction
+    ON shop_purchases (interaction_id)
+    WHERE interaction_id IS NOT NULL
+`).run();
+
+db.prepare(`
+    CREATE INDEX IF NOT EXISTS idx_shop_purchases_user_item_date
+    ON shop_purchases (user_id, item_id, purchased_at)
+`).run();
+
+db.prepare(`
+    CREATE TABLE IF NOT EXISTS crate_key_balances (
+        user_id TEXT NOT NULL,
+        key_type TEXT NOT NULL,
+        quantity INTEGER NOT NULL DEFAULT 0 CHECK (quantity >= 0),
+        updated_at TEXT NOT NULL,
+        PRIMARY KEY (user_id, key_type)
+    )
+`).run();
+
+db.prepare(`
+    CREATE TABLE IF NOT EXISTS crate_openings (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        interaction_id TEXT NOT NULL UNIQUE,
+        guild_id TEXT,
+        user_id TEXT NOT NULL,
+        key_type TEXT NOT NULL,
+        reward_id TEXT NOT NULL,
+        reward_type TEXT NOT NULL,
+        reward_amount INTEGER NOT NULL DEFAULT 1,
+        opened_at TEXT NOT NULL
+    )
+`).run();
+
+db.prepare(`
+    CREATE INDEX IF NOT EXISTS idx_crate_openings_user_date
+    ON crate_openings (user_id, opened_at)
 `).run();
 
 

@@ -352,6 +352,25 @@
             "weights": [30, 25, 20, 15, 10]
         }
     },
+    "discord_crate_key": {
+        "id": "discord_crate_key",
+        "image": null,
+        "merchant_key": "traveling_merchant",
+        "name": "Whisper Crate Key",
+        "description": "Opens one Discord Whisper Crate with /crate open",
+        "emoji": "🗝️",
+        "rarity": "epic",
+        "price": 5000,
+        "max_stock": 0,
+        "restock_time": 0,
+        "unlimited_stock": true,
+        "category": "crate_key",
+        "metadata": {
+            "grant_type": "crate_key",
+            "key_type": "whisper",
+            "daily_limit": 3
+        }
+    },
     "rare_seed": {
         "id": "rare_seed",
         "image": "rare_seed",

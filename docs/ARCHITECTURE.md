@@ -14,7 +14,7 @@ commands/
   │                        poker, roulette, slots, tic
   ├── context/      (21) → 15 deployed, 6 built-but-excluded (Discord's 15-command cap)
   ├── daily/        (1)  → here.js (check-in, distinct from player/daily.js)
-  ├── economy/      (5)  → racebet, raceaccept, racedecline, races, shop
+  ├── economy/      (6)  → racebet, raceaccept, racedecline, races, shop, crate
   ├── kingdoms/     (2)  → kingdom, kingdoms
   ├── lore/         (1)  → lore.js (all 8 subcommands in one file — Discord
   │                        requires this for subcommands of one parent)
@@ -23,7 +23,7 @@ commands/
   ├── social/       (30) → 29 social interactions + yeet.js (unaccounted-for 22nd)
   └── utility/      (2)  → help, ping
 
-services/          (44 files) → see "Core File Ownership" below for the
+services/          (58 files) → see "Core File Ownership" below for the
                                   ones that matter most
   ├── embedBuilder/       → sessionService.js, templateService.js
   │                          (supports /embedbuilder admin tool)
@@ -41,7 +41,7 @@ shop-engine/        → same pattern as social-engine: engine/ + data/ (JSON)
 events/            (4)  → interactionCreate.js (THE dispatcher — see below),
                             messageCreate.js, messageReactionAdd.js, voiceStateUpdate.js
 
-utils/             (14 files + embedBuilder/ subfolder, includes
+utils/             (16 files + embedBuilder/ subfolder, includes
                        notificationRouter.js — see docs/updates/ for the
                        2026-07-29 notification routing audit)
   → embedFactory.js is the single largest file in the project by a wide
@@ -102,6 +102,9 @@ handlers/           → commandHandler.js (loads every commands/*/*.js into
 ### `events/interactionCreate.js`
 **Controls:** the entire interaction dispatch pipeline — button routing (lore_*, casino_*, tic_accept_*/tic_decline_*/tic_pvp_move_*) and command execution. **This file used to only handle `isChatInputCommand()`** — context menu commands would register with Discord and appear correctly in the UI, then silently fail the moment anyone clicked one, because the dispatcher returned early before ever reaching the execution logic. Fixed by extending the guard to also accept `isUserContextMenuCommand()`. This is exactly the kind of gap that's invisible until you actually try to use the feature — worth remembering if any *other* interaction type (e.g. message context menus, modals from a brand-new flow) ever gets added.
 
+### `services/crateService.js` + `shop-engine/engine/PurchaseManager.js`
+**Controls:** Discord crate key balances, secure reward selection, crate opening audit records, and marketplace settlement. Coin debit, stock reservation, entitlement grant, and purchase logging commit in one SQLite transaction. Discord interaction IDs are unique idempotency keys, so retries and double-clicks cannot charge, grant, or open twice.
+
 ---
 
 ## System Flow
@@ -127,6 +130,13 @@ Not all buttons go through `client.commands` — most casino/quest/memory button
 /mine → activityService.executeActivity() → checkCooldown() (persistent, DB-backed)
       → weighted outcome roll → coinService.addCoins + xpService.addXP
       → startCooldown() → result embed
+```
+
+### Discord Crate Flow
+```
+/shop → atomic coin debit + key grant + purchase audit
+      → /crate open (or purchase button) → atomic key consume
+      → crypto-secure weighted reward roll → coin/item grant + opening audit
 ```
 
 ### Social Engine Flow

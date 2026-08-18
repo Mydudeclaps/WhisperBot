@@ -1,6 +1,6 @@
 # 💾 WhisperBot Database Schema
 
-Single SQLite file (`whisperbot.db`), one connection module (`database/database.js`), 25 tables. Every table uses `CREATE TABLE IF NOT EXISTS`, and every column added after initial release uses `ALTER TABLE ADD COLUMN` wrapped in try/catch — this is a **self-healing** schema: starting the bot against an old database file automatically brings it up to date, no manual migration step, ever. This documentation is generated directly from that file, table by table, in the order they appear.
+Single SQLite file (`whisperbot.db` by default, configurable with `WHISPERBOT_DB_PATH`), one connection module (`database/database.js`), 35 tables including `shop_stock`. Every table uses `CREATE TABLE IF NOT EXISTS`, and every column added after initial release uses `ALTER TABLE ADD COLUMN` wrapped in try/catch — this is a **self-healing** schema: starting the bot against an old database file automatically brings it up to date, no manual migration step, ever. WAL mode, foreign keys, and a bounded busy timeout are enabled at connection startup.
 
 ---
 
@@ -289,6 +289,42 @@ Indexed on `(user_id, played_at)`.
 | submitted_at | TEXT, NOT NULL |
 
 Indexes: unique on `(guild_id, archive_number)`, plus `(guild_id, approved)` and `(category)`.
+
+### `shop_stock`
+**Purpose:** Shared or scoped marketplace stock and restock timestamps. Created by `shop-engine/engine/StockManager.js` against the same database connection.
+| Column | Type |
+|---|---|
+| item_id, scope | TEXT, composite PK |
+| current_stock, last_restock | INTEGER, NOT NULL |
+
+### `shop_purchases`
+**Purpose:** Auditable marketplace settlement history and per-player daily purchase-limit source of truth.
+| Column | Type | Notes |
+|---|---|---|
+| id | INTEGER PK AUTOINCREMENT | |
+| interaction_id | TEXT, unique when present | Discord idempotency key |
+| guild_id, user_id, item_id, item_name | TEXT | |
+| price, quantity, total_price | INTEGER | |
+| purchased_at | TEXT | ISO timestamp |
+
+### `crate_key_balances`
+**Purpose:** Dedicated Discord crate entitlements; deliberately separate from general inventory.
+| Column | Type |
+|---|---|
+| user_id, key_type | TEXT, composite PK |
+| quantity | INTEGER, non-negative |
+| updated_at | TEXT |
+
+### `crate_openings`
+**Purpose:** One immutable audit row per completed opening. The unique Discord interaction ID prevents retries or double-clicks from consuming/granting twice.
+| Column | Type |
+|---|---|
+| id | INTEGER PK AUTOINCREMENT |
+| interaction_id | TEXT, unique |
+| guild_id, user_id, key_type | TEXT |
+| reward_id, reward_type | TEXT |
+| reward_amount | INTEGER |
+| opened_at | TEXT |
 
 ---
 

@@ -4,12 +4,19 @@
   "description": "",
   "main": "bot.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node bot.js",
+    "deploy:commands": "node deploy-commands.js",
+    "test": "node --test --test-concurrency=1",
+    "check": "node scripts/check-command-graph.js",
+    "backup": "node scripts/backup-db.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
+  "engines": {
+    "node": ">=24 <25"
+  },
   "dependencies": {
     "better-sqlite3": "^12.11.1",
     "discord.js": "^14.27.0",

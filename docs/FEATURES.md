@@ -73,9 +73,11 @@ Four kingdoms (North/East/South/West), each with a distinct color scheme and lor
 
 ## 💰 Economy System
 
-Coins, shop (`shop-engine/` — its own engine/data split, same pattern as `social-engine/`), inventory, robbery (`/rob` — heat/streak/cooldown persistence, full audit log via `robbery_logs`), and the daily-mission race system (`/racebet` etc. — explicitly kept separate from the casino's `/horse`, per an earlier requirement that these stay two distinct systems despite both involving "racing").
+Coins, shop (`shop-engine/` — its own engine/data split, same pattern as `social-engine/`), Discord crates, inventory, robbery (`/rob` — heat/streak/cooldown persistence, full audit log via `robbery_logs`), and the daily-mission race system (`/racebet` etc. — explicitly kept separate from the casino's `/horse`, per an earlier requirement that these stay two distinct systems despite both involving "racing").
 
-**Files:** `commands/economy/*.js`, `commands/player/*.js`, `services/coinService.js`, `services/inventoryService.js`, `services/robbery{Calculator,Logger,Validator}.js`, `shop-engine/`.
+The Traveling Merchant sells up to three Whisper Crate Keys per player per UTC day. `/crate view` publishes the exact reward odds; `/crate open` and the post-purchase button consume one key and grant one Discord-only coin or collectible reward. Purchases and openings are atomic and idempotent.
+
+**Files:** `commands/economy/*.js`, `commands/player/*.js`, `services/coinService.js`, `services/inventoryService.js`, `services/crateService.js`, `services/robbery{Calculator,Logger,Validator}.js`, `shop-engine/`.
 
 ---
 

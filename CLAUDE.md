@@ -24,9 +24,10 @@ correct (two are confirmed broken: Progressive 3-Card Poker pays out
 
 ## Technology Stack
 
-Node.js (CommonJS), discord.js v14, better-sqlite3, node-cron, dotenv. No
-automated test suite — verification happens by running the logic, not by
-a test runner (see `docs/AI_CONTEXT.md`).
+Node.js (CommonJS), discord.js v14, better-sqlite3, node-cron, dotenv. Critical
+marketplace/crate transactions now have a Node test suite; broader verification
+still relies on running the command graph and focused simulations (see
+`docs/AI_CONTEXT.md`).
 
 ## Architecture
 

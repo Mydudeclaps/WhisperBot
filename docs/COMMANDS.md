@@ -1,6 +1,6 @@
 # 🎮 WhisperBot Command Encyclopedia
 
-Generated directly from every file under `commands/` (101 files, 12 folders) — not from a plan or spec. Command names, subcommands, and descriptions below were extracted from the actual `SlashCommandBuilder`/`ContextMenuCommandBuilder` calls in each file.
+Generated directly from every file under `commands/` (103 files, 12 folders) — not from a plan or spec. Command names, subcommands, and descriptions below were extracted from the actual `SlashCommandBuilder`/`ContextMenuCommandBuilder` calls in each file.
 
 A note on how commands actually register: **the folder a file lives in is purely organizational.** `handlers/commandHandler.js` and `deploy-commands.js` both recursively scan every subfolder of `commands/` and register whatever `data.name` each file exports — nothing about the folder name itself is meaningful to Discord. So "Casino commands live in `commands/casino/`" is a convention this codebase follows, not a rule Discord enforces.
 
@@ -102,11 +102,12 @@ Four kingdoms (North/East/South/West), each with its own color scheme and lore i
 
 ---
 
-## 💰 Economy (`commands/economy/`) — 5 files
+## 💰 Economy (`commands/economy/`) — 6 files
 
 | Command | Purpose |
 |---|---|
 | `/shop` | Visit the Whisper Marketplace (see `shop-engine/` — merchants, items, categories) |
+| `/crate view` / `/crate open` | View Discord crate keys and published odds, or consume one key for a WhisperBot reward |
 | `/racebet` | Challenge another player to a **daily-mission race** (NOT the casino's `/horse` — a completely separate system, kept deliberately separate per an earlier explicit requirement) |
 | `/raceaccept` / `/racedecline` | Respond to a race challenge |
 | `/races` | View active daily-mission races |

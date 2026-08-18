@@ -73,6 +73,13 @@ class ShopManager {
             .map(itemId => items[itemId])
             .filter(item => item && item.active !== false)
             .map(item => {
+                if (item.unlimited_stock) {
+                    return {
+                        ...item,
+                        current_stock: 1,
+                        secondsUntilRestock: null
+                    };
+                }
                 const stock = StockManager.getStock(item.id, scope);
                 return { ...item, current_stock: stock.current_stock, secondsUntilRestock: stock.secondsUntilRestock };
             });

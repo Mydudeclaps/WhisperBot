@@ -4,6 +4,7 @@ const logger = require("../utils/logger");
 const handleLoreButton = require("../utils/loreInteractionHandler");
 const handleCasinoButton = require("../utils/casinoInteractionHandler");
 const handleTicPvpButton = require("../utils/ticPvpInteractionHandler");
+const handleCrateButton = require("../utils/crateInteractionHandler");
 
 module.exports = {
     name: "interactionCreate",
@@ -44,6 +45,18 @@ module.exports = {
                 await handleCasinoButton(interaction);
             } catch (error) {
                 console.error("Casino button error:", error);
+            }
+
+            return;
+
+        }
+
+        if (interaction.isButton() && interaction.customId.startsWith("crate_open:")) {
+
+            try {
+                await handleCrateButton(interaction);
+            } catch (error) {
+                console.error("Crate button routing error:", error);
             }
 
             return;

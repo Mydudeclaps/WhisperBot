@@ -15,7 +15,7 @@ WhisperBot is a cinematic Discord bot built for the **WhisperSMP** community —
 
 **Technology stack:**
 - **Runtime:** Node.js, [discord.js v14](https://discord.js.org/) (`^14.27.0`)
-- **Database:** SQLite via [`better-sqlite3`](https://github.com/WiseLibs/better-sqlite3) (`^12.11.1`) — one file, `whisperbot.db`, 25 tables, self-healing migrations on every boot
+- **Database:** SQLite via [`better-sqlite3`](https://github.com/WiseLibs/better-sqlite3) (`^12.11.1`) — one configurable file, 35 tables, self-healing migrations on every boot
 - **Scheduling:** `node-cron` (lore broadcast) + a `setInterval`-based daily reset and hourly cooldown cleanup
 - **Host:** Windows (the committed `better-sqlite3` native binary is Windows-built — see [DEVELOPMENT.md](DEVELOPMENT.md) for why this matters if you ever run this on Linux/macOS)
 
@@ -30,7 +30,8 @@ WhisperBot is a cinematic Discord bot built for the **WhisperSMP** community —
 - [Commands → COMMANDS.md](COMMANDS.md) — every command, generated from the actual command files, organized by folder
 - [Architecture → ARCHITECTURE.md](ARCHITECTURE.md) — file structure, file ownership, system flow
 - [System Map → SYSTEM_MAP.md](SYSTEM_MAP.md) — visual diagrams of how systems connect
-- [Database → DATABASE.md](DATABASE.md) — all 25 tables, generated from `database/database.js`
+- [Database → DATABASE.md](DATABASE.md) — all 35 tables and persistence behavior
+- [Deployment → DEPLOYMENT.md](DEPLOYMENT.md) — Docker service, secrets, command registration, health, and backups
 - [Features → FEATURES.md](FEATURES.md) — every major system explained in depth
 - [Development → DEVELOPMENT.md](DEVELOPMENT.md) — how to add commands/features, coding standards
 - [AI Context → AI_CONTEXT.md](AI_CONTEXT.md) — **read this first if you're an AI agent about to modify this codebase**

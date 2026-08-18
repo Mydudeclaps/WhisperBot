@@ -1,6 +1,11 @@
 require("dotenv").config();
 
-require("./database/database");
+if (!process.env.DISCORD_TOKEN) {
+    console.error("Missing required environment variable: DISCORD_TOKEN");
+    process.exit(1);
+}
+
+const db = require("./database/database");
 
 // Fails startup loudly with every problem listed if any activity's
 // config is broken — catches the class of bug that crashed /hunt (and
@@ -23,6 +28,11 @@ const { loadEvents } = require("./handlers/eventHandler");
 const LoreBroadcast = require("./schedulers/loreBroadcast");
 
 const { cleanupExpiredCooldowns } = require("./services/casinoService");
+const {
+    markStarting,
+    markReady,
+    markStopping
+} = require("./services/runtimeHealthService");
 
 
 process.on("unhandledRejection", (error) => {
@@ -81,6 +91,8 @@ client.once("clientReady", () => {
 
     new LoreBroadcast(client);
 
+    startScheduler();
+
     // Expired casino_cooldowns rows are already harmless (checkCooldown
     // ignores them), this just keeps the table from growing forever.
     setInterval(() => {
@@ -88,11 +100,33 @@ client.once("clientReady", () => {
         if (removed > 0) console.log(`🧹 Cleaned up ${removed} expired casino cooldown(s).`);
     }, 60 * 60 * 1000);
 
-});
+    markReady({
+        botTag: client.user.tag,
+        guildCount: client.guilds.cache.size
+    });
 
-startScheduler();
+});
 
 console.log("Starting WhisperBot...");
 
+markStarting();
 
-client.login(process.env.DISCORD_TOKEN);
+let shuttingDown = false;
+async function shutdown(signal) {
+    if (shuttingDown) return;
+    shuttingDown = true;
+
+    console.log(`Received ${signal}; shutting down WhisperBot...`);
+    markStopping();
+    client.destroy();
+    db.close();
+    process.exit(0);
+}
+
+process.once("SIGTERM", () => shutdown("SIGTERM"));
+process.once("SIGINT", () => shutdown("SIGINT"));
+
+client.login(process.env.DISCORD_TOKEN).catch(error => {
+    console.error("Discord login failed:", error.message);
+    process.exit(1);
+});

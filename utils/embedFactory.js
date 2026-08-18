@@ -882,6 +882,91 @@ function inventoryEmbed(username, items, avatarURL) {
 }
 
 
+// /crate
+
+function crateOverviewEmbed(username, crate, keyBalance) {
+    const totalWeight = crate.rewards.reduce((sum, reward) => sum + reward.weight, 0);
+    const rewardLines = crate.rewards.map(reward => {
+        const chance = (reward.weight / totalWeight) * 100;
+        return `${reward.emoji} **${reward.name}** — ${chance.toFixed(chance % 1 === 0 ? 0 : 1)}%`;
+    });
+
+    const embed = new EmbedBuilder()
+        .setTitle(`🗝️ ${crate.name}`)
+        .setColor(COLORS.GOLD)
+        .setDescription(
+            `The Traveling Merchant's key turns in an ancient lock.\n\n` +
+            `**${username}'s Keys:** ${keyBalance}\n` +
+            `**Key Price:** ${crate.price.toLocaleString()} coins\n` +
+            `**Daily Purchase Limit:** ${crate.dailyPurchaseLimit}\n\n` +
+            `**Published Rewards**\n${rewardLines.join("\n")}`
+        )
+        .setFooter({ text: "WhisperBot • Discord Crates" })
+        .setTimestamp();
+
+    return withThumbnail(embed, "mystery_box");
+}
+
+function crateOpenedEmbed(username, result) {
+    const rarityColors = {
+        common: 0x95A5A6,
+        uncommon: 0x2ECC71,
+        rare: 0x3498DB,
+        epic: 0x9B59B6,
+        legendary: 0xF1C40F,
+        divine: 0xFFD700
+    };
+
+    const balanceLine = result.newBalance == null
+        ? ""
+        : `\n💰 Coin Balance: **${result.newBalance.toLocaleString()}**`;
+
+    const embed = new EmbedBuilder()
+        .setTitle("✨ The Whisper Crate Opens!")
+        .setColor(rarityColors[result.reward.rarity] || COLORS.GOLD)
+        .setDescription(
+            `The chamber falls silent as **${username}** turns the key...\n\n` +
+            `${result.reward.emoji} **${result.reward.name}**\n` +
+            `Rarity: **${result.reward.rarity.toUpperCase()}**\n\n` +
+            `🗝️ Keys Remaining: **${result.keyBalance}**${balanceLine}`
+        )
+        .setFooter({ text: "WhisperBot • Discord Crates" })
+        .setTimestamp();
+
+    return withThumbnail(embed, "mystery_box");
+}
+
+function crateNoKeyEmbed(crate) {
+    const embed = new EmbedBuilder()
+        .setTitle("🔒 The Whisper Crate Is Sealed")
+        .setColor(COLORS.WARNING)
+        .setDescription(
+            `You need a **${crate.keyName}** to open this crate.\n\n` +
+            `Visit \`/shop\` to purchase one for **${crate.price.toLocaleString()} coins**.`
+        )
+        .setFooter({ text: "WhisperBot • Discord Crates" })
+        .setTimestamp();
+
+    return withThumbnail(embed, "mystery_box");
+}
+
+function crateErrorEmbed(reason) {
+    const alreadyProcessed = reason === "already_processed";
+    const embed = new EmbedBuilder()
+        .setTitle(alreadyProcessed ? "✅ Crate Already Opened" : "⚠️ The Crate Resists")
+        .setColor(alreadyProcessed ? COLORS.INFO : COLORS.ERROR)
+        .setDescription(
+            alreadyProcessed
+                ? "That opening was already completed. No additional key was consumed."
+                : "The opening could not be completed, so your key and rewards were left unchanged. Please try again."
+        )
+        .setFooter({ text: "WhisperBot • Discord Crates" })
+        .setTimestamp();
+
+    return withThumbnail(embed, "mystery_box");
+}
+
+
 // /help
 function helpEmbed() {
 
@@ -919,6 +1004,8 @@ function helpEmbed() {
                 name: "💰 Economy & Games",
                 value:
                     "🎒 `/inventory` — View your inventory\n" +
+                    "🕊️ `/shop` — Visit the Whisper Marketplace\n" +
+                    "🗝️ `/crate view` / `/crate open` — View or open Discord crates\n" +
                     "🎣 `/fish` — Go fishing\n" +
                     "🎰 `/bet` — Open the Gambling Hall\n" +
                     "🎯 `/highlow amount` — Bet against the dealer\n" +
@@ -3143,6 +3230,14 @@ module.exports = {
     activeQuestsEmbed,
 
     inventoryEmbed,
+
+    crateOverviewEmbed,
+
+    crateOpenedEmbed,
+
+    crateNoKeyEmbed,
+
+    crateErrorEmbed,
 
     helpEmbed,
 

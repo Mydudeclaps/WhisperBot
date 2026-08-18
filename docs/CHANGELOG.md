@@ -2,6 +2,18 @@
 
 Reconstructed from this project's actual development history — real rounds of work, real bugs found and fixed, in order. Dates approximate where not explicitly recorded.
 
+## Discord Crates & Production Runtime — 2026-08-18
+### Added
+- `/crate view` and `/crate open`, plus an Open Crate button after key purchases.
+- A 5,000-coin Whisper Crate Key in `/shop`, limited to three per player per UTC day.
+- Published reward odds, secure server-side rolls, dedicated key balances, and immutable opening audit records.
+- Node transaction tests, full command/config validation, Docker runtime, health heartbeat, and persistent-volume deployment configuration.
+### Fixed
+- Marketplace settlement is now one SQLite transaction: coin debit, stock reservation, inventory/key grant, and purchase audit either all commit or all roll back.
+- Discord interaction IDs prevent repeated purchase/open interactions from charging or granting twice.
+- SQLite now supports a configured persistent path and enables WAL/busy-timeout safeguards.
+- Updated the vulnerable transitive HTTP dependency; production audit is clean.
+
 ## Notification Routing Audit — 2026-07-29
 ### Fixed
 - **Lore Archive posts were landing in the Welcome channel.** Root cause: `schedulers/loreBroadcast.js`'s `findBroadcastChannel()` picked `guild.systemChannel` as its first choice when no explicit destination was configured — and WhisperSMP's system channel is the Welcome channel. Removed the guessing entirely; broadcasts now go to a fixed, correctly-configured Lore Archive channel.
