@@ -8,6 +8,13 @@ its economy is backed by SQLite.
 Provide a host-only token file containing exactly one line: the Discord bot
 token. `compose.yaml` mounts it read-only at runtime through Docker secrets.
 Override its host location with `WHISPERBOT_DISCORD_TOKEN_FILE` when needed.
+The container runs as UID/GID 1000, so prepare the runtime copy without making
+the operator's original credential file broadly readable:
+
+```bash
+sudo install -d -m 0700 -o root -g root /etc/whisperbot
+sudo install -m 0440 -o root -g 1000 /path/to/token /etc/whisperbot/discord_token
+```
 
 - `DISCORD_TOKEN_FILE` — mounted bot-token file (preferred)
 - `GUILD_ID` — server used for guild-scoped command registration

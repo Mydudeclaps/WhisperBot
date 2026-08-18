@@ -30,4 +30,4 @@ volumes:
 
 secrets:
   discord_token:
-    file: ${WHISPERBOT_DISCORD_TOKEN_FILE:-/root/downloads/discord2.md}
+    file: ${WHISPERBOT_DISCORD_TOKEN_FILE:-/etc/whisperbot/discord_token}
