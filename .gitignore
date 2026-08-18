@@ -60,3 +60,5 @@ desktop.ini
 *.pid
 *.seed
 *.tgz
+# Archive backups
+*.zip
