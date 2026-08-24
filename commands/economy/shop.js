@@ -263,7 +263,7 @@ module.exports = {
         await i.reply({
             content: `✅ Purchased **${result.item.name}** ${result.item.emoji} for **${result.totalPrice.toLocaleString()} coins**. ` +
                       `Balance: **${result.newBalance.toLocaleString()} coins**.` +
-                      (isCrateKey ? " Use `/crate open` or the button below." : ""),
+                      (isCrateKey ? " Use `/crate open` or the button below to send it to your linked Minecraft account." : ""),
             flags: MessageFlags.Ephemeral,
             components: isCrateKey ? [buildCrateOpenRow(i.user.id)] : []
         });

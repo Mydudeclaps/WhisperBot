@@ -11,8 +11,11 @@ services:
       GUILD_ID: ${GUILD_ID:-1478108083593941063}
       WHISPERBOT_DB_PATH: /data/whisperbot.db
       WHISPERBOT_HEALTH_PATH: /tmp/whisperbot-health.json
+      WEGO_DISCORD_CRATE_URL: ${WEGO_DISCORD_CRATE_URL:-https://wego.gg/api/internal/whisperbot/crate-key}
+      WEGO_DISCORD_CRATE_SECRET_FILE: /run/secrets/wego_discord_crate_secret
     secrets:
       - discord_token
+      - wego_discord_crate_secret
     volumes:
       - whisperbot-data:/data
       - whisperbot-logs:/app/logs
@@ -31,3 +34,5 @@ volumes:
 secrets:
   discord_token:
     file: ${WHISPERBOT_DISCORD_TOKEN_FILE:-/etc/whisperbot/discord_token}
+  wego_discord_crate_secret:
+    file: ${WHISPERBOT_CRATE_SECRET_FILE:-/etc/whisperbot/wego_discord_crate_secret}

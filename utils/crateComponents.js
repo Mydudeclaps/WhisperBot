@@ -8,7 +8,7 @@ function buildCrateOpenRow(userId, disabled = false) {
     return new ActionRowBuilder().addComponents(
         new ButtonBuilder()
             .setCustomId(`crate_open:${userId}`)
-            .setLabel("Open Whisper Crate")
+            .setLabel("Send Key to Minecraft")
             .setEmoji("🗝️")
             .setStyle(ButtonStyle.Primary)
             .setDisabled(disabled)

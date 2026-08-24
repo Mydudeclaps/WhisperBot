@@ -6,8 +6,8 @@ const {
 const { getCrate } = require("../../config/crateConfig");
 const {
     getKeyBalance,
-    openCrate
 } = require("../../services/crateService");
+const { deliverMinecraftCrateKey } = require("../../services/minecraftCrateDeliveryService");
 const {
     crateOverviewEmbed,
     crateOpenedEmbed,
@@ -19,13 +19,13 @@ const { buildCrateOpenRow } = require("../../utils/crateComponents");
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("crate")
-        .setDescription("Enter the Discord Whisper Crate chamber")
+        .setDescription("View rewards or send a Discord crate key to Minecraft")
         .addSubcommand(subcommand => subcommand
             .setName("view")
             .setDescription("View your keys, rewards, and drop rates"))
         .addSubcommand(subcommand => subcommand
             .setName("open")
-            .setDescription("Use one key to open the Whisper Crate")),
+            .setDescription("Send one key to your linked Minecraft account")),
 
     async execute(interaction) {
         await interaction.deferReply({ flags: MessageFlags.Ephemeral });
@@ -50,18 +50,16 @@ module.exports = {
         }
 
         try {
-            const result = openCrate({
+            const result = await deliverMinecraftCrateKey({
                 userId: interaction.user.id,
-                username: interaction.user.username,
                 guildId: interaction.guildId,
-                interactionId: interaction.id,
-                keyType: crate.keyType
+                interactionId: interaction.id
             });
 
             if (!result.success) {
                 const view = result.reason === "no_key"
                     ? crateNoKeyEmbed(crate)
-                    : crateErrorEmbed(result.reason);
+                    : crateErrorEmbed(result.reason, crate);
 
                 await interaction.editReply({
                     embeds: [view.embed],
@@ -86,7 +84,7 @@ module.exports = {
             });
         } catch (error) {
             console.error("[crate] opening failed:", error);
-            const { embed, files } = crateErrorEmbed("transaction_failed");
+            const { embed, files } = crateErrorEmbed("delivery_pending", crate);
             await interaction.editReply({ embeds: [embed], files, components: [] });
         }
     }

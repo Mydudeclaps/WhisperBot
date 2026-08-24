@@ -753,6 +753,26 @@ db.prepare(`
     ON crate_openings (user_id, opened_at)
 `).run();
 
+db.prepare(`
+    CREATE TABLE IF NOT EXISTS minecraft_crate_deliveries (
+        order_id TEXT PRIMARY KEY,
+        interaction_id TEXT NOT NULL UNIQUE,
+        guild_id TEXT,
+        user_id TEXT NOT NULL,
+        status TEXT NOT NULL CHECK (status IN ('pending', 'delivered', 'failed')),
+        receipt_json TEXT,
+        last_error TEXT,
+        created_at TEXT NOT NULL,
+        updated_at TEXT NOT NULL
+    )
+`).run();
+
+db.prepare(`
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_minecraft_crate_deliveries_pending_user
+    ON minecraft_crate_deliveries (user_id)
+    WHERE status = 'pending'
+`).run();
+
 
 console.log("✅ Database connected");
 

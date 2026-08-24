@@ -19,6 +19,8 @@ sudo install -m 0440 -o root -g 1000 /path/to/token /etc/whisperbot/discord_toke
 - `DISCORD_TOKEN_FILE` — mounted bot-token file (preferred)
 - `GUILD_ID` — server used for guild-scoped command registration
 - `CLIENT_ID` — optional; command registration discovers it from Discord when omitted
+- `WEGO_DISCORD_CRATE_URL` — signed wego.gg delivery endpoint
+- `WHISPERBOT_CRATE_SECRET_FILE` — host-only HMAC secret mounted read-only at runtime
 
 Never commit the token file. The application must have the Guild Members and Message
 Content privileged intents enabled because existing features consume both.

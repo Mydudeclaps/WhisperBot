@@ -899,38 +899,27 @@ function crateOverviewEmbed(username, crate, keyBalance) {
             `**${username}'s Keys:** ${keyBalance}\n` +
             `**Key Price:** ${crate.price.toLocaleString()} coins\n` +
             `**Daily Purchase Limit:** ${crate.dailyPurchaseLimit}\n\n` +
-            `**Published Rewards**\n${rewardLines.join("\n")}`
+            `Purchase in Discord, then use \`/crate open\` to deliver one key to your linked Minecraft account. Open the physical crate at spawn.\n\n` +
+            `**Published Minecraft Rewards**\n${rewardLines.join("\n")}`
         )
-        .setFooter({ text: "WhisperBot • Discord Crates" })
+        .setFooter({ text: "WhisperBot • Discord to Minecraft" })
         .setTimestamp();
 
     return withThumbnail(embed, "mystery_box");
 }
 
 function crateOpenedEmbed(username, result) {
-    const rarityColors = {
-        common: 0x95A5A6,
-        uncommon: 0x2ECC71,
-        rare: 0x3498DB,
-        epic: 0x9B59B6,
-        legendary: 0xF1C40F,
-        divine: 0xFFD700
-    };
-
-    const balanceLine = result.newBalance == null
-        ? ""
-        : `\n💰 Coin Balance: **${result.newBalance.toLocaleString()}**`;
-
     const embed = new EmbedBuilder()
-        .setTitle("✨ The Whisper Crate Opens!")
-        .setColor(rarityColors[result.reward.rarity] || COLORS.GOLD)
+        .setTitle("✅ Minecraft Crate Key Delivered!")
+        .setColor(COLORS.SUCCESS)
         .setDescription(
-            `The chamber falls silent as **${username}** turns the key...\n\n` +
-            `${result.reward.emoji} **${result.reward.name}**\n` +
-            `Rarity: **${result.reward.rarity.toUpperCase()}**\n\n` +
-            `🗝️ Keys Remaining: **${result.keyBalance}**${balanceLine}`
+            `**${username}**, one Discord crate key was delivered to Minecraft account ` +
+            `**${result.receipt.minecraftUsername}**.\n\n` +
+            `🎮 Minecraft Discord-crate keys: **${result.receipt.resultingBalance}**\n` +
+            `🗝️ Discord keys waiting: **${result.keyBalance}**\n\n` +
+            `Go to the **Discord & Vote Rewards Crate at spawn** to open it.`
         )
-        .setFooter({ text: "WhisperBot • Discord Crates" })
+        .setFooter({ text: "WhisperBot • Discord to Minecraft" })
         .setTimestamp();
 
     return withThumbnail(embed, "mystery_box");
@@ -950,17 +939,21 @@ function crateNoKeyEmbed(crate) {
     return withThumbnail(embed, "mystery_box");
 }
 
-function crateErrorEmbed(reason) {
-    const alreadyProcessed = reason === "already_processed";
+function crateErrorEmbed(reason, crate = { price: 5000 }) {
+    const linkRequired = reason === "minecraft_link_required";
+    const pending = reason === "delivery_pending";
+    const unavailable = reason === "bridge_unavailable";
     const embed = new EmbedBuilder()
-        .setTitle(alreadyProcessed ? "✅ Crate Already Opened" : "⚠️ The Crate Resists")
-        .setColor(alreadyProcessed ? COLORS.INFO : COLORS.ERROR)
+        .setTitle(linkRequired ? "🔗 Link Minecraft First" : pending ? "⏳ Delivery Pending" : "⚠️ Delivery Unavailable")
+        .setColor(linkRequired ? COLORS.WARNING : pending ? COLORS.INFO : COLORS.ERROR)
         .setDescription(
-            alreadyProcessed
-                ? "That opening was already completed. No additional key was consumed."
-                : "The opening could not be completed, so your key and rewards were left unchanged. Please try again."
+            linkRequired
+                ? "In Minecraft, run `/discord link` and complete the link in Discord. Join the server once, then use `/crate open` again. Your Discord key was returned."
+                : pending
+                    ? "The request may still be reaching Minecraft. Your key is safely reserved; use `/crate open` again shortly to check the same delivery."
+                    : `The Minecraft bridge is not ready. Your key was not consumed. You can retry later; keys cost ${crate.price.toLocaleString()} coins in \`/shop\`.`
         )
-        .setFooter({ text: "WhisperBot • Discord Crates" })
+        .setFooter({ text: "WhisperBot • Discord to Minecraft" })
         .setTimestamp();
 
     return withThumbnail(embed, "mystery_box");
@@ -1005,7 +998,7 @@ function helpEmbed() {
                 value:
                     "🎒 `/inventory` — View your inventory\n" +
                     "🕊️ `/shop` — Visit the Whisper Marketplace\n" +
-                    "🗝️ `/crate view` / `/crate open` — View or open Discord crates\n" +
+                    "🗝️ `/crate view` / `/crate open` — View rewards or send a key to Minecraft\n" +
                     "🎣 `/fish` — Go fishing\n" +
                     "🎰 `/bet` — Open the Gambling Hall\n" +
                     "🎯 `/highlow amount` — Bet against the dealer\n" +
