@@ -1,7 +1,7 @@
 const { MessageFlags } = require("discord.js");
 
 const { getCrate } = require("../config/crateConfig");
-const { openCrate } = require("../services/crateService");
+const { deliverMinecraftCrateKey } = require("../services/minecraftCrateDeliveryService");
 const {
     crateOpenedEmbed,
     crateNoKeyEmbed,
@@ -25,18 +25,16 @@ async function handleCrateButton(interaction) {
     const crate = getCrate("whisper");
 
     try {
-        const result = openCrate({
+        const result = await deliverMinecraftCrateKey({
             userId: interaction.user.id,
-            username: interaction.user.username,
             guildId: interaction.guildId,
-            interactionId: interaction.id,
-            keyType: crate.keyType
+            interactionId: interaction.id
         });
 
         if (!result.success) {
             const view = result.reason === "no_key"
                 ? crateNoKeyEmbed(crate)
-                : crateErrorEmbed(result.reason);
+                : crateErrorEmbed(result.reason, crate);
 
             await interaction.editReply({
                 embeds: [view.embed],

@@ -17,6 +17,7 @@ const {
     grantKeys
 } = require("../services/crateService");
 const { deliverMinecraftCrateKey } = require("../services/minecraftCrateDeliveryService");
+const handleCrateButton = require("../utils/crateInteractionHandler");
 
 after(() => {
     db.close();
@@ -236,6 +237,49 @@ test("an unlinked Minecraft account receives its Discord key back", async () => 
             .get("unlinked-1").status,
         "failed"
     );
+});
+
+test("the crate button sends its key to Minecraft instead of opening a legacy local reward", async () => {
+    grantKeys("button-opener", "whisper", 1);
+    let requestBody;
+    global.fetch = async (_url, options) => {
+        requestBody = JSON.parse(options.body);
+        return new Response(JSON.stringify({
+            ok: true,
+            result: {
+                replayed: false,
+                receipt: {
+                    orderId: requestBody.orderId,
+                    discordUserId: "button-opener",
+                    minecraftUsername: "ButtonOpener",
+                    crateId: "discord",
+                    keyAmount: 1,
+                    resultingBalance: 4
+                }
+            }
+        }), { status: 200, headers: { "content-type": "application/json" } });
+    };
+
+    let editedReply;
+    const interaction = {
+        customId: "crate_open:button-opener",
+        user: { id: "button-opener", username: "ButtonOpener" },
+        guildId: "guild-1",
+        id: "button-open-1",
+        deferUpdate: async () => {},
+        editReply: async payload => { editedReply = payload; }
+    };
+
+    await handleCrateButton(interaction);
+
+    assert.equal(getKeyBalance("button-opener"), 0);
+    assert.equal(requestBody.discordUserId, "button-opener");
+    assert.equal(
+        db.prepare("SELECT status FROM minecraft_crate_deliveries WHERE interaction_id = ?")
+            .get("button-open-1").status,
+        "delivered"
+    );
+    assert.equal(editedReply.embeds[0].data.title, "✅ Minecraft Crate Key Delivered!");
 });
 
 test("the published Minecraft crate has exactly 20 rewards totaling 100 percent", () => {
