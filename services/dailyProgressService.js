@@ -133,27 +133,6 @@ async function updateMissionProgress(
             }    
 
 
-            db.prepare(`
-
-                UPDATE user_daily_missions
-
-                SET progress = ?,
-                    completed = 1
-
-                WHERE user_id = ?
-                AND mission_id = ?
-
-            `).run(
-
-                newProgress,
-
-                userId,
-
-                mission.mission_id
-
-            );
-
-
         } else {
 
 

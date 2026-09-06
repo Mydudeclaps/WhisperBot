@@ -9,7 +9,12 @@ try {
     const health = JSON.parse(fs.readFileSync(healthPath, "utf8"));
     const heartbeatAge = Date.now() - Date.parse(health.heartbeatAt);
 
-    if (health.status !== "ready" || !Number.isFinite(heartbeatAge) || heartbeatAge > 90000) {
+    if (
+        health.status !== "ready" ||
+        health.discordReady !== true ||
+        !Number.isFinite(heartbeatAge) ||
+        heartbeatAge > 90000
+    ) {
         process.exit(1);
     }
 

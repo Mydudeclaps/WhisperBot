@@ -14,6 +14,9 @@ module.exports = {
     // level-based achievements tied to them (events/messageCreate.js).
     PLAYER_UPDATES_CHANNEL_ID: "1526546226890276905",
 
+    // Nightly Whisper SMP economy/gameplay standings (Talk Radio).
+    MINECRAFT_LEADERBOARD_CHANNEL_ID: "1478108084340785358",
+
     // WhisperSMP's actual Welcome channel. WhisperBot has no feature that
     // should ever post to this — it's recorded here only as a reference
     // point for the channel that Lore Archive posts were mistakenly

@@ -25,6 +25,35 @@ const missionTimers = new Map();
 const UPDATE_INTERVAL = 5 * 60 * 1000; // 5 minutes
 const XP_INTERVAL = 5 * 60 * 1000;     // 5 minutes
 
+async function recordVoiceProgress(userId, minutes, channel) {
+    try {
+        incrementStat(userId, "voice_minutes", minutes);
+    } catch (error) {
+        console.error(`Voice stat update failed for ${userId}:`, error);
+    }
+
+    try {
+        await updateMissionProgress(
+            userId,
+            "voice_minutes",
+            minutes,
+            channel
+        );
+    } catch (error) {
+        console.error(`Voice mission update failed for ${userId}:`, error);
+    }
+
+    try {
+        updateQuestProgress(
+            userId,
+            "VOICE_MINUTES",
+            minutes
+        );
+    } catch (error) {
+        console.error(`Voice quest update failed for ${userId}:`, error);
+    }
+}
+
 module.exports = {
     name: "voiceStateUpdate",
 
@@ -44,9 +73,13 @@ module.exports = {
 
             // Start XP timer (every 5 minutes)
             const xpTimer = setInterval(() => {
-                const result = giveVoiceXP(member);
-                if (result && result.leveledUp) {
-                    console.log(`⭐ ${member.user.username} leveled up from voice!`);
+                try {
+                    const result = giveVoiceXP(member);
+                    if (result && result.leveledUp) {
+                        console.log(`⭐ ${member.user.username} leveled up from voice!`);
+                    }
+                } catch (error) {
+                    console.error(`Voice XP update failed for ${userId}:`, error);
                 }
             }, XP_INTERVAL);
             xpTimers.set(userId, xpTimer);
@@ -70,25 +103,15 @@ module.exports = {
                     // This will naturally only log every 5 minutes now!
                     console.log(`🎙️ ${member.user.username} voice time: +${newMinutes} minutes`);
                     
-                    // Update stats
-                    incrementStat(userId, "voice_minutes", newMinutes);
-                    
-                    // Update daily missions
-                    updateMissionProgress(
+                    // Advance the cursor before starting asynchronous work so
+                    // a slow Discord send cannot make the next tick award the
+                    // same minutes twice.
+                    missionTimers.set(`${userId}_counted`, totalMinutes);
+                    void recordVoiceProgress(
                         userId,
-                        "voice_minutes",
                         newMinutes,
                         newState.channel
                     );
-
-                    updateQuestProgress(
-                        userId,
-                        "VOICE_MINUTES",
-                        newMinutes
-                    );
-                    
-                    // Update counted minutes
-                    missionTimers.set(`${userId}_counted`, totalMinutes);
                 }
             }, UPDATE_INTERVAL); // 5 minutes
             
@@ -114,18 +137,10 @@ module.exports = {
                 if (finalMinutes > 0) {
                     console.log(`🎙️ ${member.user.username} final voice time: +${finalMinutes} minutes`);
                     
-                    incrementStat(userId, "voice_minutes", finalMinutes);
-                    updateMissionProgress(
+                    void recordVoiceProgress(
                         userId,
-                        "voice_minutes",
                         finalMinutes,
                         oldState.channel
-                    );
-
-                    updateQuestProgress(
-                        userId,
-                        "VOICE_MINUTES",
-                        finalMinutes
                     );
                 }
 
@@ -159,3 +174,5 @@ module.exports = {
         }
     }
 };
+
+module.exports.recordVoiceProgress = recordVoiceProgress;

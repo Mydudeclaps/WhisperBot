@@ -182,10 +182,23 @@ CREATE TABLE IF NOT EXISTS user_daily_missions (
 
     assigned_date TEXT,
 
+    completed_at TEXT,
+
     PRIMARY KEY (user_id, mission_id)
 
 )
 `).run();
+
+const dailyMissionColumns = new Set(
+    db.pragma("table_info(user_daily_missions)").map(column => column.name)
+);
+
+if (!dailyMissionColumns.has("completed_at")) {
+    db.prepare(`
+        ALTER TABLE user_daily_missions
+        ADD COLUMN completed_at TEXT
+    `).run();
+}
 
 db.prepare(`
 CREATE TABLE IF NOT EXISTS bot_settings (

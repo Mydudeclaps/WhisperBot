@@ -11,10 +11,13 @@ function loadEvents(client) {
         const event = require(`../events/${file}`);
 
 
-        client.on(
-            event.name,
-            (...args) => event.execute(...args)
-        );
+        client.on(event.name, (...args) => {
+            void Promise.resolve()
+                .then(() => event.execute(...args))
+                .catch(error => {
+                    console.error(`Event ${event.name} failed:`, error);
+                });
+        });
 
 
         console.log(`Loaded event: ${event.name}`);

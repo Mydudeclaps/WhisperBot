@@ -5,12 +5,27 @@ services:
     image: whisperbot:local
     container_name: whisperbot
     restart: unless-stopped
+    mem_limit: 1g
+    mem_reservation: 128m
+    memswap_limit: 1g
+    cpus: 1.0
+    pids_limit: 256
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
     init: true
     environment:
       DISCORD_TOKEN_FILE: /run/secrets/discord_token
       GUILD_ID: ${GUILD_ID:-1478108083593941063}
       WHISPERBOT_DB_PATH: /data/whisperbot.db
       WHISPERBOT_HEALTH_PATH: /tmp/whisperbot-health.json
+      # Temporary outage protection: preserves streaks for one extra day
+      # without changing the normal 24-hour claim cooldown.
+      DAILY_STREAK_GRACE_HOURS: ${DAILY_STREAK_GRACE_HOURS:-24}
+      WEGO_ECONOMY_DB_PATH: /minecraft/wegocore/economy.db
+      EBANKS_DB_PATH: /minecraft/ebanks/ebanks.db
       WEGO_DISCORD_CRATE_URL: ${WEGO_DISCORD_CRATE_URL:-https://wego.gg/api/internal/whisperbot/crate-key}
       WEGO_DISCORD_CRATE_SECRET_FILE: /run/secrets/wego_discord_crate_secret
     secrets:
@@ -19,9 +34,11 @@ services:
     volumes:
       - whisperbot-data:/data
       - whisperbot-logs:/app/logs
+      - ${WHISPER_LIVE_VOLUME:-/var/lib/pterodactyl/volumes/6c283771-343b-4aa3-ab32-1c4cfc3cff3f}/plugins/WegoCore:/minecraft/wegocore:ro
+      - ${WHISPER_LIVE_VOLUME:-/var/lib/pterodactyl/volumes/6c283771-343b-4aa3-ab32-1c4cfc3cff3f}/plugins/eBanks:/minecraft/ebanks:ro
     read_only: true
     tmpfs:
-      - /tmp:size=16m,mode=1777
+      - /tmp:size=32m,mode=1777
     security_opt:
       - no-new-privileges:true
     cap_drop:

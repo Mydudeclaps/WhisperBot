@@ -29,6 +29,7 @@ const { loadCommands } = require("./handlers/commandHandler");
 const { loadEvents } = require("./handlers/eventHandler");
 
 const LoreBroadcast = require("./schedulers/loreBroadcast");
+const MinecraftLeaderboardBroadcast = require("./schedulers/minecraftLeaderboardBroadcast");
 
 const { cleanupExpiredCooldowns } = require("./services/casinoService");
 const {
@@ -93,6 +94,7 @@ client.once("clientReady", () => {
     });
 
     new LoreBroadcast(client);
+    new MinecraftLeaderboardBroadcast(client);
 
     startScheduler();
 
@@ -104,8 +106,15 @@ client.once("clientReady", () => {
     }, 60 * 60 * 1000);
 
     markReady({
+        client,
         botTag: client.user.tag,
-        guildCount: client.guilds.cache.size
+        guildCount: client.guilds.cache.size,
+        onGatewayFailure: ({ disconnectedForMs }) => {
+            console.error(
+                `Discord gateway unavailable for ${Math.round(disconnectedForMs / 1000)}s; restarting.`
+            );
+            void shutdown("gateway watchdog", 1);
+        }
     });
 
 });
@@ -115,7 +124,7 @@ console.log("Starting WhisperBot...");
 markStarting();
 
 let shuttingDown = false;
-async function shutdown(signal) {
+async function shutdown(signal, exitCode = 0) {
     if (shuttingDown) return;
     shuttingDown = true;
 
@@ -123,7 +132,7 @@ async function shutdown(signal) {
     markStopping();
     client.destroy();
     db.close();
-    process.exit(0);
+    process.exit(exitCode);
 }
 
 process.once("SIGTERM", () => shutdown("SIGTERM"));

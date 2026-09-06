@@ -1,3 +1,10 @@
+function nonNegativeNumber(value, fallback) {
+    if (value === undefined || value === "") return fallback;
+
+    const parsed = Number(value);
+    return Number.isFinite(parsed) && parsed >= 0 ? parsed : fallback;
+}
+
 module.exports = {
 
     // How often a player can check in.
@@ -16,6 +23,9 @@ module.exports = {
     // How many hours late a player can check in and still keep their streak
     // going (rather than resetting to day 1). 0 = must check in within
     // exactly COOLDOWN_HOURS of the last check-in.
-    GRACE_PERIOD_HOURS: 0
+    GRACE_PERIOD_HOURS: nonNegativeNumber(
+        process.env.DAILY_STREAK_GRACE_HOURS,
+        0
+    )
 
 };
