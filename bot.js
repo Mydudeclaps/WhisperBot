@@ -15,9 +15,6 @@ const db = require("./database/database");
 // several related ones: empty outcome arrays, malformed reward ranges,
 // mismatched chance totals) before the bot is ever reachable, instead
 // of letting a live command discover it at 2am.
-const { validateActivities } = require("./services/activityService");
-validateActivities();
-
 // Fails startup loudly with every problem listed if any activity's
 // config is broken — catches the class of bug that crashed /hunt (and
 // several related ones: empty outcome arrays, malformed reward ranges,
